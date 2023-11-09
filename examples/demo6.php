@@ -1,21 +1,3 @@
-
-# html builder
-
-##### Document Object Model (DOM) document generator, each attribute of each DOM node contains corresponding API operations.
-
----
-
-## Installation
-
-You can install the package via composer:
-
-```bash
-composer require coco-project/html-builder
-```
-
-### Here's a quick example:
-
-```php
 <?php
 
     use Coco\htmlBuilder\dom\Document;
@@ -143,10 +125,8 @@ composer require coco-project/html-builder
 
     print_r($html->render());
 
-```
-### result
 
-```html
+    /*
 <!doctype html>
 <html lang="zh">
 	<head>
@@ -179,17 +159,4 @@ composer require coco-project/html-builder
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 	</body>
 </html>
-
-```
-
-## Testing
-
-``` bash
-composer test
-```
-
-## License
-
----
-
-MIT
+     */
