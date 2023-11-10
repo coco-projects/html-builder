@@ -15,4 +15,7 @@ CONTENTS;
         parent::__construct($templateString);
         $tagName && $this->appendSubsection('TAG__NAME', $tagName);
     }
+    public function afterRender(string &$sectionContents)
+    {
+    }
 }

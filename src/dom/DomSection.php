@@ -4,6 +4,13 @@
 
     namespace Coco\htmlBuilder\dom;
 
+    use Coco\htmlBuilder\dom\tags\CSSCode;
+    use Coco\htmlBuilder\dom\tags\JSCode;
+    use Coco\htmlBuilder\dom\tags\Link;
+    use Coco\htmlBuilder\dom\tags\Meta;
+    use Coco\htmlBuilder\dom\tags\Script;
+    use Coco\htmlBuilder\dom\tags\Style;
+
 class DomSection extends DomBlock
 {
     private static array $valueMap = [];
@@ -11,16 +18,16 @@ class DomSection extends DomBlock
     /**
      *head 中的自定义 js 代码对象
      *
-     * @var DomSection|null $scriptSection
+     * @var JSCode|null $scriptSection
      */
-    protected ?DomSection $scriptSection = null;
+    protected ?JSCode $scriptSection = null;
 
     /**
      *head 中的自定义css代码对象
      *
-     * @var DomSection|null $styleSection
+     * @var CSSCode|null $styleSection
      */
-    protected ?DomSection $styleSection = null;
+    protected ?CSSCode $styleSection = null;
 
     public function __construct(string $templateString = '')
     {
@@ -45,12 +52,7 @@ class DomSection extends DomBlock
         $uniqueLabel = md5($link);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendParentSection('JS_HEAD', [
-                DoubleTag::ins('script')->process(function (DoubleTag $this_, array &$inner) use (&$link) {
-                    $this_->getAttr('src')->setAttrKv('src', $link);
-                    $this_->getAttr('crossorigin')->setAttrKv('crossorigin', 'anonymous');
-                }),
-            ]);
+            $this->appendParentSection('JS_HEAD', Script::ins($link));
         }
 
         return $this;
@@ -69,12 +71,7 @@ class DomSection extends DomBlock
         $uniqueLabel = md5($link);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendParentSection('JS_LIB', [
-                DoubleTag::ins('script')->process(function (DoubleTag $this_, array &$inner) use (&$link) {
-                    $this_->getAttr('src')->setAttrKv('src', $link);
-                    $this_->getAttr('crossorigin')->setAttrKv('crossorigin', 'anonymous');
-                }),
-            ]);
+            $this->appendParentSection('JS_LIB', Script::ins($link));
         }
 
         return $this;
@@ -83,17 +80,18 @@ class DomSection extends DomBlock
     /**
      * body 中的 js 调用代码，适用于代码不需要替换变量的场景，可设定每次调用追加与否
      *
-     * @param string $codeWithScriptTag
+     *
+     * @param string $codeWithoutScriptTag
      * @param bool   $isUnique
      *
      * @return $this
      */
-    public function jsCustomRawCode(string $codeWithScriptTag, bool $isUnique = true): static
+    public function jsCustomRawCode(string $codeWithoutScriptTag, bool $isUnique = true): static
     {
-        $uniqueLabel = md5($codeWithScriptTag);
+        $uniqueLabel = md5($codeWithoutScriptTag);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendParentSection('JS_CUSTOM', $codeWithScriptTag);
+            $this->appendParentSection('JS_CUSTOM', Script::ins($codeWithoutScriptTag, false));
         }
 
         return $this;
@@ -113,6 +111,39 @@ class DomSection extends DomBlock
         return $this;
     }
 
+    /**
+     * head 中的 css 调用代码，适用于复杂代码需要替换的场景，每次调用会追加一次
+     *
+     * @param DomBlock $section
+     *
+     * @return $this
+     */
+    public function cssCustomDomSection(DomBlock $section): static
+    {
+        $this->appendParentSection('CSS_CUSTOM', $section);
+
+        return $this;
+    }
+
+    /**
+     * 添加 meta 标签
+     *
+     * @param array|string $kvAttr
+     * @param array        $rawAttr
+     *
+     * @return DomSection
+     */
+    public function meta(array|string $kvAttr = [], array $rawAttr = []): static
+    {
+        if (is_string($kvAttr)) {
+            $this->appendParentSection('HEAD', $kvAttr);
+        } else {
+            $this->appendParentSection('HEAD', Meta::ins($kvAttr, $rawAttr));
+        }
+
+        return $this;
+    }
+
 
     /**
      * head 中的 css 链接
@@ -127,13 +158,7 @@ class DomSection extends DomBlock
         $uniqueLabel = md5($link);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendParentSection('CSS_LIB', [
-                SingleTag::ins('link')->process(function (SingleTag $this_, array &$inner) use (&$link) {
-                    $this_->getAttr('href')->setAttrKv('href', $link);
-                    $this_->getAttr('rel')->setAttrKv('rel', 'stylesheet');
-                    $this_->getAttr('crossorigin')->setAttrKv('crossorigin', 'anonymous');
-                }),
-            ]);
+            $this->appendParentSection('CSS_LIB', Link::ins($link));
         }
 
         return $this;
@@ -142,17 +167,17 @@ class DomSection extends DomBlock
     /**
      * head 中的自定义css代码
      *
-     * @param string $codeWithStyleTag
+     * @param string $codeWithoutStyleTag
      * @param bool   $isUnique
      *
      * @return $this
      */
-    public function cssCustomRawCode(string $codeWithStyleTag, bool $isUnique = true): static
+    public function cssCustomRawCode(string $codeWithoutStyleTag, bool $isUnique = true): static
     {
-        $uniqueLabel = md5($codeWithStyleTag);
+        $uniqueLabel = md5($codeWithoutStyleTag);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendParentSection('CSS_CUSTOM', $codeWithStyleTag);
+            $this->appendParentSection('CSS_CUSTOM', Style::ins($codeWithoutStyleTag));
         }
 
         return $this;
@@ -162,11 +187,22 @@ class DomSection extends DomBlock
     /**
      * 获取底部自定义的 js 模板对象
      *
-     * @return DomSection|null
+     * @return JSCode|null
      */
-    public function getScriptSection(): ?DomSection
+    public function getScriptSection(): ?JSCode
     {
         return $this->scriptSection;
+    }
+
+
+    /**
+     * 获取底部自定义的 js 模板对象
+     *
+     * @return CSSCode|null
+     */
+    public function getStyleSection(): ?CSSCode
+    {
+        return $this->styleSection;
     }
 
     /**

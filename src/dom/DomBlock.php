@@ -53,6 +53,16 @@ class DomBlock extends TreeNode
     protected array $defaultValue = [];
 
     /**
+     * @var bool $isHidden
+     */
+    protected bool $isHidden = false;
+
+    /**
+     * @var bool $isDebug
+     */
+    public static bool $isDebug = true;
+
+    /**
      * @var array|string[] $attrRegistryMap 常用属性和类型映射
      */
     protected static array $attrRegistryMap = [
@@ -100,6 +110,18 @@ class DomBlock extends TreeNode
         $this['attrRegistry'] = AttrRegistry::ins();
         $this->setTemplate($templateString);
         $this->initDefault();
+    }
+
+    /**
+     * @param bool $isHidden
+     *
+     * @return DomBlock
+     */
+    public function setIsHidden(bool $isHidden): static
+    {
+        $this->isHidden = $isHidden;
+
+        return $this;
     }
 
     /**
@@ -254,28 +276,56 @@ class DomBlock extends TreeNode
      *
      * @return string
      */
+
     public function render(): string
     {
-
-        $template = $this['template'];
-        foreach ($this['sections'] as $sectionName => $sectionIds) {
-            $contents = '';
-
-            foreach ($sectionIds as $k => $sectionId) {
-                if ($sectionId !== -1) {
-                    $node     = $this->getChildRecrusive($sectionId);
-                    $contents .= static::evelSectionValue($node['template']);
-                }
-            }
-
-            $template = strtr($template, [
-                static::makeNodeName($sectionName) => $contents,
-            ]);
+        if ($this->isHidden) {
+            return '';
         }
 
-        return $template;
+        $template  = $this['template'];
+        $toReplace = [];
+
+        foreach ($this['sections'] as $sectionName => $sectionIds) {
+            $toReplace[static::makeNodeName($sectionName)] = $this->renderNodeContents($sectionName);
+        }
+
+        $contents = strtr($template, $toReplace);
+
+        $this->afterRender($contents);
+
+        return $contents;
     }
 
+    /**
+     * 渲染完成后的回调，子类中完善处理
+     *
+     * @param string $sectionContents
+     *
+     * @return void
+     */
+    public function afterRender(string &$sectionContents)
+    {
+    }
+
+    public function renderNodeContents(string $sectionName): string
+    {
+        if (!isset($this['sectionsContents'][$sectionName])) {
+            $this['sectionsContents'][$sectionName] = '';
+
+            $sectionIds = $this['sections'][$sectionName];
+            foreach ($sectionIds as $k => $sectionId) {
+                if ($sectionId !== -1) {
+                    $node = $this->getChildRecrusive($sectionId);
+
+                    $this['sectionsContents'][$sectionName] .= static::evelSectionValue($node['template']);
+                    ;
+                }
+            }
+        }
+
+        return $this['sectionsContents'][$sectionName];
+    }
 
     /**
      * 获取dom副本

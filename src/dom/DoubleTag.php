@@ -25,4 +25,9 @@ CONTENTS;
     {
         return $this->appendSubsection('TAG__NAME', $tagName);
     }
+
+
+    public function afterRender(string &$sectionContents)
+    {
+    }
 }
