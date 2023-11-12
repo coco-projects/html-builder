@@ -291,6 +291,8 @@ class DomBlock extends TreeNode
             return '';
         }
 
+        $this->beforeRender();
+
         $template  = $this['template'];
         $toReplace = [];
 
@@ -316,6 +318,16 @@ class DomBlock extends TreeNode
     {
     }
 
+    /**
+     * 渲染之前回调
+     *
+     *
+     * @return void
+     */
+    public function beforeRender()
+    {
+    }
+
     public function renderNodeContents(string $sectionName): string
     {
         if (!isset($this['sectionsContents'][$sectionName])) {
@@ -327,7 +339,6 @@ class DomBlock extends TreeNode
                     $node = $this->getChildRecrusive($sectionId);
 
                     $this['sectionsContents'][$sectionName] .= static::evelSectionValue($node['template']);
-                    ;
                 }
             }
 
