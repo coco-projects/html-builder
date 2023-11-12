@@ -9,7 +9,7 @@
     require '../vendor/autoload.php';
 
     DomBlock::$var['title'] = 'layui demo';
-    DomBlock::$isDebug      = false;
+    DomBlock::$isDebug      = !false;
 
     $html = Document::ins()->process(function(Document $this_, array &$inner) {
 
@@ -122,18 +122,20 @@
 
     print_r($html->render());
 /*
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh">
-	<head><title>layui demo</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1" test-attr1="" test-attr2="">
-		<meta name="description" content="这是网页的描述">
-		<meta name="keywords" content="keyword1, keyword2, keyword3">
-		<link href="//cdn.staticfile.org/layui/2.8.18/css/layui.css" rel="stylesheet" crossorigin="anonymous">
-		<style>*{
-			padding    : 0;
-			margin     : 0;
-			background : #9bff9b
+	<head>
+		<title>layui demo</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1" test-attr1 test-attr2/>
+		<meta name="description" content="这是网页的描述"/>
+		<meta name="keywords" content="keyword1, keyword2, keyword3"/>
+		<link href="//cdn.staticfile.org/layui/2.8.18/css/layui.css" rel="stylesheet" crossorigin="anonymous"/>
+
+		<style>        *{
+			padding    : 0px;
+			margin     : 0px;
+			background : #9bff9b;
 		}</style>
 	</head>
 	<body>
@@ -147,48 +149,46 @@
 				<div class="layui-col-xs4">column 3</div>
 			</div>
 			<div class="layui-row">
-				<div class="layui-col-xs12" style="height:600px;background:#ccc;" data-uid="25" data-cid="122" unselected="">
-					<button type="button" class="layui-btn layui-bg-orange " data-msg="弹出msg" id="coco-layer-btn-msg-42">一个按钮</button>
-					<button type="button" class="layui-btn layui-bg-blue " data-msg="layui demo" id="coco-layer-btn-msg-84">一个按钮22</button>
-					<button type="button" class="layui-btn layui-bg-green " data-msg="layui demo" id="coco-layer-btn-msg-109">一个按钮33</button>
+				<div class="layui-col-xs12" style="height:600px;background:#ccc;" data-uid="25" data-cid="122" unselected>
+					<button type="button" class="layui-btn layui-bg-orange " data-msg='prefix_[弹出msg]_suffix' id="coco-layer-btn-msg-42">一个按钮</button>
+					<button type="button" class="layui-btn layui-bg-blue " data-msg='prefix_[layui demo]_suffix' id="coco-layer-btn-msg-82">一个按钮22</button>
+					<button type="button" class="layui-btn layui-bg-green " data-msg='prefix_[layui demo]_suffix' id="coco-layer-btn-msg-107">一个按钮33</button>
 				</div>
 			</div>
 		</div>
 		<script src="//unpkg.com/layui@2.8.18/dist/layui.js" crossorigin="anonymous"></script>
-		<script>
-			layui.use(function () {
-				let $     = layui.$;
-				let layer = layui.layer;
-				$("#coco-layer-btn-msg-42").on({
-					"click": function () {
-						layer.msg($(this).data("msg"), {icon: 4});
-					}
-				});
+		<script>    layui.use(function () {
+			let $     = layui.$;
+			let layer = layui.layer;
+
+			$("#coco-layer-btn-msg-42").on({
+				"click": function () {
+					layer.msg($(this).data("msg"), {icon: 4});
+				}
 			});
-		</script>
-		<script>
-			layui.use(function () {
-				let $     = layui.$;
-				let layer = layui.layer;
-				$("#coco-layer-btn-msg-84").on({
-					"click": function () {
-						layer.msg($(this).data("msg"), {icon: 5});
-					}
-				});
+		});</script>
+		<script>    layui.use(function () {
+			let $     = layui.$;
+			let layer = layui.layer;
+
+			$("#coco-layer-btn-msg-82").on({
+				"click": function () {
+					layer.msg($(this).data("msg"), {icon: 5});
+				}
 			});
-		</script>
-		<script>
-			layui.use(function () {
-				let $     = layui.$;
-				let layer = layui.layer;
-				$("#coco-layer-btn-msg-109").on({
-					"click": function () {
-						layer.msg($(this).data("msg"), {icon: 3});
-					}
-				});
+		});</script>
+		<script>    layui.use(function () {
+			let $     = layui.$;
+			let layer = layui.layer;
+
+			$("#coco-layer-btn-msg-107").on({
+				"click": function () {
+					layer.msg($(this).data("msg"), {icon: 3});
+				}
 			});
-		</script>
+		});</script>
 	</body>
 </html>
+
 
  */

@@ -28,9 +28,9 @@ CONTENTS;
         }
 
 
-
         /**
          * 当这个组件被使用时，希望加上的 js 代码
+         *
          * @return void
          */
         protected function makeScriptSection(): void
@@ -62,6 +62,7 @@ CONTENTS;
 
         /**
          * 组件对应的自定义css代码
+         *
          * @return void
          */
         protected function makeStyleSection(): void
@@ -69,7 +70,7 @@ CONTENTS;
             $this->styleSection = new class extends CSSCode {
 
                 protected array $defaultValue = [
-                    "background"   => '#9bff9b',
+                    "background" => '#9bff9b',
                 ];
 
                 public function __construct()
@@ -96,19 +97,24 @@ CONTENTS;
 
             //组件被重复调用，此处代码会多次渲染，可以在dom中这样调用动态设置值
             //$this_->getScriptSection()->setSubsection('btn_icon', 5);
-            $this->jsCustomDomSection(Script::ins($this->scriptSection,false));
+            $this->jsCustomDomSection(Script::ins($this->scriptSection, false));
 
             //组件被重复调用，此处代码只会渲染一次
             //无法在dom中动态设置值
-//            $this->jsCustomRawCode($this->scriptSection->render());
-
+            //            $this->jsCustomRawCode($this->scriptSection->render());
 
             //组件被重复调用，此处代码会多次渲染，可以在dom中这样调用动态设置值
-//            $this->cssCustomDomSection(Script::ins($this->styleSection,false));
+            //            $this->cssCustomDomSection(Script::ins($this->styleSection,false));
 
             //组件被重复调用，此处代码只会渲染一次
             $this->cssCustomRawCode($this->styleSection->render());
 
+        }
 
+        protected function initAfterSectionRender(): void
+        {
+            $this->afterSectionRender['btn_msg'] = function(string $nodeName, mixed &$stringable) {
+                $stringable = 'prefix_[' . $stringable . ']_suffix';
+            };
         }
     }
