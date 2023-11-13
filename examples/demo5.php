@@ -21,7 +21,7 @@
 
         $d = DoubleTag::ins('div')->process(function(\Coco\htmlBuilder\dom\DoubleTag $this_, array &$inner) {
 
-            $this_->appendParentSection('CSS_LIB', [
+            $this_->appendRootSection('CSS_LIB', [
                 SingleTag::ins('link')->process(function(SingleTag $this_, array &$inner) {
                     $this_->getAttr('href')->setAttrKv('href', 'https://baidu.com/a.css');
                     $this_->getAttr('rel')->setAttrKv('rel', 'stylesheet');

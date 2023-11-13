@@ -4,6 +4,7 @@
 
     namespace Coco\htmlBuilder\dom;
 
+    use Coco\htmlBuilder\attrs\AttrRegistry;
     use Coco\htmlBuilder\dom\tags\CSSCode;
     use Coco\htmlBuilder\dom\tags\JSCode;
     use Coco\htmlBuilder\dom\tags\Link;
@@ -29,9 +30,10 @@ class DomSection extends DomBlock
      */
     protected ?CSSCode $styleSection = null;
 
-    public function __construct(string $templateString = '')
+    public function __construct(mixed $templateString = '')
     {
         parent::__construct($templateString);
+        $this['attrRegistry'] = AttrRegistry::ins();
         $this->appendSubsection('ATTRS', $this['attrRegistry']);
         $this->makeScriptSection();
         $this->makeStyleSection();
@@ -52,7 +54,7 @@ class DomSection extends DomBlock
         $uniqueLabel = md5($link);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendParentSection('JS_HEAD', Script::ins($link));
+            $this->appendRootSection('JS_HEAD', Script::ins($link));
         }
 
         return $this;
@@ -71,7 +73,7 @@ class DomSection extends DomBlock
         $uniqueLabel = md5($link);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendParentSection('JS_LIB', Script::ins($link));
+            $this->appendRootSection('JS_LIB', Script::ins($link));
         }
 
         return $this;
@@ -91,7 +93,7 @@ class DomSection extends DomBlock
         $uniqueLabel = md5($codeWithoutScriptTag);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendParentSection('JS_CUSTOM', Script::ins($codeWithoutScriptTag, false));
+            $this->appendRootSection('JS_CUSTOM', Script::ins($codeWithoutScriptTag, false));
         }
 
         return $this;
@@ -106,7 +108,7 @@ class DomSection extends DomBlock
      */
     public function jsCustomDomSection(DomBlock $section): static
     {
-        $this->appendParentSection('JS_CUSTOM', $section);
+        $this->appendRootSection('JS_CUSTOM', $section);
 
         return $this;
     }
@@ -120,7 +122,7 @@ class DomSection extends DomBlock
      */
     public function cssCustomDomSection(DomBlock $section): static
     {
-        $this->appendParentSection('CSS_CUSTOM', $section);
+        $this->appendRootSection('CSS_CUSTOM', $section);
 
         return $this;
     }
@@ -136,9 +138,9 @@ class DomSection extends DomBlock
     public function meta(array|string $kvAttr = [], array $rawAttr = []): static
     {
         if (is_string($kvAttr)) {
-            $this->appendParentSection('HEAD', $kvAttr);
+            $this->appendRootSection('HEAD', $kvAttr);
         } else {
-            $this->appendParentSection('HEAD', Meta::ins($kvAttr, $rawAttr));
+            $this->appendRootSection('HEAD', Meta::ins($kvAttr, $rawAttr));
         }
 
         return $this;
@@ -158,7 +160,7 @@ class DomSection extends DomBlock
         $uniqueLabel = md5($link);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendParentSection('CSS_LIB', Link::ins($link));
+            $this->appendRootSection('CSS_LIB', Link::ins($link));
         }
 
         return $this;
@@ -177,7 +179,7 @@ class DomSection extends DomBlock
         $uniqueLabel = md5($codeWithoutStyleTag);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendParentSection('CSS_CUSTOM', Style::ins($codeWithoutStyleTag));
+            $this->appendRootSection('CSS_CUSTOM', Style::ins($codeWithoutStyleTag));
         }
 
         return $this;
@@ -207,7 +209,7 @@ class DomSection extends DomBlock
 
     /**
      * 构造器中自动初始化当前页面的js模板对象
-     * 其中的逻辑应该是定义一个匿名类，继承 DomSection，然后把类赋值给 $this->scriptSection
+     * 其中的逻辑应该是定义一个匿名类，继承 JSCode，然后把类赋值给 $this->scriptSection
      *
      * @return void
      */
@@ -217,7 +219,7 @@ class DomSection extends DomBlock
 
     /**
      * 构造器中自动初始化当前页面的css模板对象
-     * 其中的逻辑应该是定义一个匿名类，继承 DomSection，然后把类赋值给 $this->styleSection
+     * 其中的逻辑应该是定义一个匿名类，继承 CSSCode，然后把类赋值给 $this->styleSection
      *
      * @return void
      */

@@ -13,6 +13,7 @@ class CSSCode extends DomSection
     {
         parent::__construct($code);
     }
+
     public function afterRender(string &$sectionContents)
     {
         if (!$this::$isDebug) {

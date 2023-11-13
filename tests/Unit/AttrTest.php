@@ -64,7 +64,6 @@ AAA
 AAA
             );
 
-
             $inner[] = '<hr>';
             $inner[] = '<hr>';
             $inner[] = '<hr>';
@@ -142,7 +141,7 @@ AAA
     {
 
         DomBlock::$var['title'] = 'layui demo';
-        DomBlock::$isDebug      = false;
+        DomBlock::$isDebug      = !false;
 
         $html = Document::ins()->process(function (Document $this_, array &$inner) {
 
@@ -173,7 +172,8 @@ AAA
             $inner[] = '<hr>';
         })->process(function (Document $this_, array &$inner) {
 
-            $inner[] = DoubleTag::ins('div')->process(function (DoubleTag $this_, array &$inner) {
+            $inner[] = DomBlock::$var['test_div'] = DoubleTag::ins('div');
+            DomBlock::$var['test_div']->process(function (DoubleTag $this_, array &$inner) {
                 $this_->getAttr('class')->setAttrsArray([
                     "layui-container",
                 ]);
@@ -192,6 +192,9 @@ AAA
                     });
 
                     $inner[] = DoubleTag::ins('div')->process(function (DoubleTag $this_, array &$inner) {
+
+                        $this_->appendDesignatedSection(DomBlock::$var['test_div'], 'ATTRS', ' data-pid="123"');
+
                         $this_->getAttr('class')->addAttr('layui-col-xs4');
                         $inner[] = 'column 3';
                     });
@@ -204,13 +207,12 @@ AAA
                         $this_->getAttr('class')->addAttr('layui-col-xs12');
 
                         $this_->getAttr('style')->importKv([
-                            "height"     => "300px",
+                            "height"     => "600px",
                             "background" => "#ccc",
                         ]);
 
                         $this_->addAttr('data_uid', DataAttr::class);
                         $this_->getAttr('data_uid')->setAttrKv('uid', 25);
-
 
                         $this_->addAttr('data_cid', DataAttr::class);
                         $this_->getAttr('data_cid')->setDataKv('cid', 122);
@@ -219,8 +221,7 @@ AAA
 
                         $inner[] = ComponentTest1::ins()->process(function (ComponentTest1 $this_, array &$inner) {
                             $this_->setSubsection('btn_color', 'orange')->setSubsection('btn_text', '一个按钮')
-                                ->setSubsection('btn_msg', '弹出msg')->getScriptSection()
-                                ->setSubsection('btn_icon', 4);
+                                ->setSubsection('btn_msg', '弹出msg')->getScriptSection()->setSubsection('btn_icon', 4);
                         });
 
                         $inner[] = ComponentTest1::ins()->process(function (ComponentTest1 $this_, array &$inner) {
@@ -244,7 +245,9 @@ AAA
 
                             //$this->jsCustomDomSection(Script::ins($this->scriptSection,false));
                             //init中调 jsCustomDomSection，这里才能用 getScriptSection 这个方法
-                            $this_->getScriptSection()->setSubsection('btn_icon', 3);
+                            $this_->getScriptSection()->setSubsections([
+                                'btn_icon' => 3,
+                            ]);
                         });
                     });
                 });

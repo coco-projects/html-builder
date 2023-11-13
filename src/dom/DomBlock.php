@@ -26,9 +26,9 @@ class DomBlock extends TreeNode
     public static mixed $var = [];
 
     /**
-     * @var int $sectionId dom 的自增id
+     * @var int $nodeId dom 的自增id
      */
-    protected static int $sectionId = 0;
+    protected static int $nodeId = 0;
 
     /**
      * @var array $commonAttrs 顶级允许被子级修改的节点值，一般只有 Document 使用
@@ -53,13 +53,15 @@ class DomBlock extends TreeNode
     protected array $defaultValue = [];
 
     /**
-     * 节点设置值之前，对值做一些处理
+     * 渲染节点计算完之后，返回之前对值做一些处理
      *
      * @var array $defaultValue
      */
     protected array $afterSectionRender = [];
 
     /**
+     * 当前节点及字节的是否显示
+     *
      * @var bool $isHidden
      */
     protected bool $isHidden = false;
@@ -70,7 +72,9 @@ class DomBlock extends TreeNode
     public static bool $isDebug = true;
 
     /**
-     * @var array|string[] $attrRegistryMap 常用属性和类型映射
+     * 常用属性和类型映射
+     *
+     * @var array|string[] $attrRegistryMap
      */
     protected static array $attrRegistryMap = [
         "href"        => StandardAttr::class,
@@ -108,13 +112,12 @@ class DomBlock extends TreeNode
 
     public function __construct(mixed $templateString = '')
     {
-        parent::__construct(self::getSectionId());
+        parent::__construct(self::getNodeId());
 
         if ($this->isRootNode) {
             static::$rootNode = $this;
         }
 
-        $this['attrRegistry'] = AttrRegistry::ins();
         $this->setTemplate($templateString);
         $this->initAfterSectionRender();
         $this->initDefault();
@@ -188,7 +191,7 @@ class DomBlock extends TreeNode
     }
 
     /**
-     * 设置模板
+     * 设置节点模板
      *
      * @param mixed $stringable
      *
@@ -198,12 +201,12 @@ class DomBlock extends TreeNode
     {
         $this['template'] = $stringable;
 
-        if (is_string($this['template'])) {
-            $nodesName = static::extractSectionsName($this['template']);
+        if (is_string($stringable)) {
+            $sectionsName = static::extractSectionsName($this['template']);
 
-            foreach ($nodesName as $k => $nodeName) {
-                if (!isset($this['sections'][$nodeName])) {
-                    $this['sections'][$nodeName][] = -1;
+            foreach ($sectionsName as $k => $sectionName) {
+                if (!isset($this['sections'][$sectionName])) {
+                    $this['sections'][$sectionName][] = -1;
                 }
             }
         }
@@ -214,16 +217,16 @@ class DomBlock extends TreeNode
     /**
      * 追加属性值
      *
-     * @param string $nodeName
+     * @param string $sectionName
      * @param mixed  $stringable
      *
      * @return $this
      */
-    public function appendSubsection(string $nodeName, mixed $stringable): static
+    public function appendSubsection(string $sectionName, mixed $stringable): static
     {
         $node = DomBlock::ins($stringable);
 
-        $this['sections'][$nodeName][] = $node->getId();
+        $this['sections'][$sectionName][] = $node->getId();
         $this->addChild($node);
 
         return $this;
@@ -233,16 +236,17 @@ class DomBlock extends TreeNode
     /**
      * 设置属性值
      *
-     * @param string $nodeName
+     * @param string $sectionName
      * @param mixed  $stringable
      *
      * @return $this
      */
-    public function setSubsection(string $nodeName, mixed $stringable): static
+    public function setSubsection(string $sectionName, mixed $stringable): static
     {
-        $node                          = DomBlock::ins($stringable);
-        $this['sections'][$nodeName]   = [];
-        $this['sections'][$nodeName][] = $node->getId();
+        $node = DomBlock::ins($stringable);
+
+        $this['sections'][$sectionName]   = [];
+        $this['sections'][$sectionName][] = $node->getId();
         $this->addChild($node);
 
         return $this;
@@ -258,8 +262,8 @@ class DomBlock extends TreeNode
      */
     public function appendSubsections(array $nodes): static
     {
-        foreach ($nodes as $nodeName => $stringable) {
-            $this->appendSubsection($nodeName, $stringable);
+        foreach ($nodes as $sectionName => $stringable) {
+            $this->appendSubsection($sectionName, $stringable);
         }
         return $this;
     }
@@ -273,14 +277,46 @@ class DomBlock extends TreeNode
      */
     public function setSubsections(array $nodes): static
     {
-        foreach ($nodes as $nodeName => $stringable) {
-            $this->setSubsection($nodeName, $stringable);
+        foreach ($nodes as $sectionName => $stringable) {
+            $this->setSubsection($sectionName, $stringable);
         }
         return $this;
     }
 
     /**
-     * 渲染模板
+     * 渲染当前节点指定 section
+     *
+     * @param string $sectionName
+     *
+     * @return string
+     */
+    public function renderNodeContents(string $sectionName): string
+    {
+        if (!isset($this['sectionsContents'][$sectionName])) {
+            $this['sectionsContents'][$sectionName] = '';
+
+            $sectionIds = $this['sections'][$sectionName];
+            foreach ($sectionIds as $k => $sectionId) {
+                if ($sectionId !== -1) {
+                    $node = $this->getChildRecrusive($sectionId);
+
+                    $this['sectionsContents'][$sectionName] .= static::evelSectionValue($node['template']);
+                }
+            }
+
+            if (isset($this->afterSectionRender[$sectionName])) {
+                call_user_func_array($this->afterSectionRender[$sectionName], [
+                    $sectionName,
+                    &$this['sectionsContents'][$sectionName],
+                ]);
+            }
+        }
+
+        return $this['sectionsContents'][$sectionName];
+    }
+
+    /**
+     * 渲染当前节点
      *
      * @return string
      */
@@ -308,53 +344,7 @@ class DomBlock extends TreeNode
     }
 
     /**
-     * 渲染完成后的回调，子类中完善处理
-     *
-     * @param string $sectionContents
-     *
-     * @return void
-     */
-    public function afterRender(string &$sectionContents)
-    {
-    }
-
-    /**
-     * 渲染之前回调
-     *
-     *
-     * @return void
-     */
-    public function beforeRender()
-    {
-    }
-
-    public function renderNodeContents(string $sectionName): string
-    {
-        if (!isset($this['sectionsContents'][$sectionName])) {
-            $this['sectionsContents'][$sectionName] = '';
-
-            $sectionIds = $this['sections'][$sectionName];
-            foreach ($sectionIds as $k => $sectionId) {
-                if ($sectionId !== -1) {
-                    $node = $this->getChildRecrusive($sectionId);
-
-                    $this['sectionsContents'][$sectionName] .= static::evelSectionValue($node['template']);
-                }
-            }
-
-            if (isset($this->afterSectionRender[$sectionName])) {
-                call_user_func_array($this->afterSectionRender[$sectionName], [
-                    $sectionName,
-                    &$this['sectionsContents'][$sectionName],
-                ]);
-            }
-        }
-
-        return $this['sectionsContents'][$sectionName];
-    }
-
-    /**
-     * 获取dom副本
+     * 获取 dom 副本
      *
      * @return static
      */
@@ -365,7 +355,7 @@ class DomBlock extends TreeNode
          */
         $node = deep_copy($this);
 
-        $node->setId(static::getSectionId());
+        $node->setId(static::getNodeId());
 
         return $node;
     }
@@ -405,36 +395,82 @@ class DomBlock extends TreeNode
 
 
     /**
-     * 修改顶级节点内容
+     * 追加指定节点的 section 内容
      *
-     * @param string $nodeName
-     * @param mixed  $stringable
+     * @param DomBlock $node
+     * @param string   $sectionName
+     * @param mixed    $stringable
      *
-     * @return $this
+     * @return DomBlock
      */
-    public function appendParentSection(string $nodeName, mixed $stringable): static
+    public function appendDesignatedSection(DomBlock $node, string $sectionName, mixed $stringable): static
     {
-        if (in_array($nodeName, static::$rootNode->commonAttrs)) {
-            static::$rootNode->appendSubsection($nodeName, $stringable);
-        }
+        $node->appendSubsection($sectionName, $stringable);
 
         return $this;
     }
 
+
     /**
-     * 获取指定分块对象
+     * 设置指定节点的 section 内容
      *
-     * @param string $nodeName
+     * @param DomBlock $node
+     * @param string   $sectionName
+     * @param mixed    $stringable
      *
-     * @return mixed
+     * @return DomBlock
      */
-    protected function getSubsection(string $nodeName): mixed
+    public function setDesignatedSection(DomBlock $node, string $sectionName, mixed $stringable): static
     {
-        return $this['sections'][$nodeName];
+        $node->setSubsection($sectionName, $stringable);
+
+        return $this;
+    }
+
+
+    /**
+     *
+     * 追加顶级节点的 section 内容
+     *
+     * @param string $sectionName
+     * @param mixed  $stringable
+     *
+     * @return $this
+     */
+    public function appendRootSection(string $sectionName, mixed $stringable): static
+    {
+        return $this->appendDesignatedSection(static::$rootNode, $sectionName, $stringable);
+    }
+
+
+    /**
+     *
+     * 修改顶级节点的 section 内容
+     *
+     * @param string $sectionName
+     * @param mixed  $stringable
+     *
+     * @return $this
+     */
+    public function setRootSection(string $sectionName, mixed $stringable): static
+    {
+        return $this->setDesignatedSection(static::$rootNode, $sectionName, $stringable);
     }
 
     /**
-     * 计算
+     * 获取指定 section 对象
+     *
+     * @param string $sectionName
+     *
+     * @return mixed
+     */
+    protected function getSubsection(string $sectionName): mixed
+    {
+        return $this['sections'][$sectionName];
+    }
+
+    /**
+     * 计算 section 内容
      *
      * @param mixed $sectionNode
      *
@@ -445,11 +481,7 @@ class DomBlock extends TreeNode
         $str = '';
 
         if ($sectionNode instanceof DomBlock) {
-            if (!isset($sectionNode['cache'])) {
-                $sectionNode['cache'] = $sectionNode->render();
-            }
-
-            $str = $sectionNode['cache'];
+            $str = $sectionNode->render();
         } elseif (is_string($sectionNode)) {
             $str = $sectionNode;
         } elseif (is_array($sectionNode)) {
@@ -493,9 +525,9 @@ class DomBlock extends TreeNode
     /**
      * @return int
      */
-    protected static function getSectionId(): int
+    protected static function getNodeId(): int
     {
-        return self::$sectionId++;
+        return self::$nodeId++;
     }
 
     /**
@@ -512,12 +544,35 @@ class DomBlock extends TreeNode
 
 
     /**
-     * 初始化属性初始化前置回调
+     * 渲染节点计算完之后，返回之前对值做一些处理
+     *
      * 在字节点中自己定义后写业务逻辑
      *
      */
     protected function initAfterSectionRender(): void
     {
-        $this->afterSectionRender = [];
+    }
+
+    /**
+     * 渲染完成后的回调，子类中完善处理
+     * 对js或者css 做mini 操作
+     *
+     * @param string $sectionContents
+     *
+     * @return void
+     */
+    public function afterRender(string &$sectionContents)
+    {
+    }
+
+    /**
+     * 渲染之前回调
+     *
+     * 在类中自定义方法拼接属性后，在这个回调中调 setSubsection 设置属性
+     *
+     * @return void
+     */
+    public function beforeRender()
+    {
     }
 }
