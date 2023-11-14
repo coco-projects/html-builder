@@ -561,7 +561,7 @@ class DomBlock extends TreeNode
      *
      * @return void
      */
-    public function afterRender(string &$sectionContents)
+    protected function afterRender(string &$sectionContents)
     {
     }
 
@@ -572,7 +572,7 @@ class DomBlock extends TreeNode
      *
      * @return void
      */
-    public function beforeRender()
+    protected function beforeRender()
     {
     }
 }
