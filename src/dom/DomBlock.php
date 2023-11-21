@@ -118,9 +118,57 @@ class DomBlock extends TreeNode
             static::$rootNode = $this;
         }
 
+        $this['sections']            = [];
+        $this['sectionsWithoutEval'] = [];
         $this->setTemplate($templateString);
         $this->initAfterSectionRender();
         $this->initDefault();
+    }
+
+    /**
+     * @param string $sectionName
+     * @param string $string
+     *
+     * @return $this
+     */
+    public function setSubsectionWithoutEval(string $sectionName, string $string): static
+    {
+        $this['sectionsWithoutEval'][$sectionName]   = [];
+        $this['sectionsWithoutEval'][$sectionName][] = $string;
+
+        return $this;
+    }
+
+    /**
+     * @param string $sectionName
+     * @param string $string
+     *
+     * @return $this
+     */
+    public function appendSubsectionWithoutEval(string $sectionName, string $string): static
+    {
+        $this['sectionsWithoutEval'][$sectionName][] = implode('', [
+            static::makeSectionTagName($sectionName),
+            $string,
+        ]);
+
+        return $this;
+    }
+
+    /**
+     * @param string $sectionName
+     * @param string $string
+     *
+     * @return $this
+     */
+    public function prependSubsectionWithoutEval(string $sectionName, string $string): static
+    {
+        $this['sectionsWithoutEval'][$sectionName][] = implode('', [
+            $string,
+            static::makeSectionTagName($sectionName),
+        ]);
+
+        return $this;
     }
 
     /**
@@ -200,16 +248,6 @@ class DomBlock extends TreeNode
     public function setTemplate(mixed $stringable): static
     {
         $this['template'] = $stringable;
-
-        if (is_string($stringable)) {
-            $sectionsName = static::extractSectionsName($this['template']);
-
-            foreach ($sectionsName as $k => $sectionName) {
-                if (!isset($this['sections'][$sectionName])) {
-                    $this['sections'][$sectionName][] = -1;
-                }
-            }
-        }
 
         return $this;
     }
@@ -327,13 +365,32 @@ class DomBlock extends TreeNode
             return '';
         }
 
+        if (is_string($this['template'])) {
+            foreach ($this['sectionsWithoutEval'] as $sectionName => $stringArray) {
+                foreach ($stringArray as $string) {
+                    $this['template'] = strtr($this['template'], [
+                        static::makeSectionTagName($sectionName) => $string,
+                    ]);
+                }
+            }
+
+            $sectionsName = static::extractSectionsName($this['template']);
+
+            foreach ($sectionsName as $k => $sectionName) {
+                if (!isset($this['sections'][$sectionName])) {
+                    $this['sections'][$sectionName][] = -1;
+                }
+            }
+        }
+
+        $template = $this['template'];
+
         $this->beforeRender();
 
-        $template  = $this['template'];
         $toReplace = [];
 
         foreach ($this['sections'] as $sectionName => $sectionIds) {
-            $toReplace[static::makeNodeName($sectionName)] = $this->renderNodeContents($sectionName);
+            $toReplace[static::makeSectionTagName($sectionName)] = $this->renderNodeContents($sectionName);
         }
 
         $contents = strtr($template, $toReplace);
@@ -506,7 +563,7 @@ class DomBlock extends TreeNode
      *
      * @return string
      */
-    protected static function makeNodeName(string $tag): string
+    protected static function makeSectionTagName(string $tag): string
     {
         return "{:$tag:}";
     }
