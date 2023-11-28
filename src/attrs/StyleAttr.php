@@ -24,6 +24,10 @@ class StyleAttr extends KVAttributeAbstruct
 
     public function beforeGetAttrsString(string &$str): void
     {
-        $str = preg_replace('/(")$/im', ' {:__STYLE__:}$1', $str);
+        if (!$str) {
+            $str = '"{:__STYLE__:}"';
+        } else {
+            $str = preg_replace('/(")$/im', ' {:__STYLE__:}$1', $str);
+        }
     }
 }
