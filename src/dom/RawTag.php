@@ -11,9 +11,11 @@
     use Coco\htmlBuilder\attrs\RawAttr;
     use Coco\htmlBuilder\attrs\StandardAttr;
     use Coco\htmlBuilder\attrs\StyleAttr;
+    use Coco\htmlBuilder\traits\DomEnhancer;
 
 class RawTag extends DomBlock
 {
+    use DomEnhancer;
 
     /**
      * 常用属性和类型映射
@@ -21,37 +23,37 @@ class RawTag extends DomBlock
      * @var array|string[] $attrRegistryMap
      */
     protected static array $attrRegistryMap = [
-        "href"        => StandardAttr::class,
-        "target"      => StandardAttr::class,
-        "src"         => StandardAttr::class,
-        "alt"         => StandardAttr::class,
-        "width"       => StandardAttr::class,
-        "height"      => StandardAttr::class,
-        "action"      => StandardAttr::class,
-        "method"      => StandardAttr::class,
-        "type"        => StandardAttr::class,
-        "name"        => StandardAttr::class,
-        "value"       => StandardAttr::class,
-        "rows"        => StandardAttr::class,
-        "cols"        => StandardAttr::class,
-        "for"         => StandardAttr::class,
-        "charset"     => StandardAttr::class,
-        "description" => StandardAttr::class,
-        "content"     => StandardAttr::class,
-        "http_equiv"  => StandardAttr::class,
-        "rel"         => StandardAttr::class,
-        "base "       => StandardAttr::class,
-        "defer"       => StandardAttr::class,
-        "async"       => StandardAttr::class,
-        "sizes"       => StandardAttr::class,
-        "crossorigin" => StandardAttr::class,
-        "lang"        => StandardAttr::class,
-        "property"    => StandardAttr::class,
-        "selected"    => RawAttr::class,
-        "disabled"    => RawAttr::class,
-        "class"       => ClassAttr::class,
-        "style"       => StyleAttr::class,
-        "id"          => StandardAttr::class,
+    "href"        => StandardAttr::class,
+    "target"      => StandardAttr::class,
+    "src"         => StandardAttr::class,
+    "alt"         => StandardAttr::class,
+    "width"       => StandardAttr::class,
+    "height"      => StandardAttr::class,
+    "action"      => StandardAttr::class,
+    "method"      => StandardAttr::class,
+    "type"        => StandardAttr::class,
+    "name"        => StandardAttr::class,
+    "value"       => StandardAttr::class,
+    "rows"        => StandardAttr::class,
+    "cols"        => StandardAttr::class,
+    "for"         => StandardAttr::class,
+    "charset"     => StandardAttr::class,
+    "description" => StandardAttr::class,
+    "content"     => StandardAttr::class,
+    "http_equiv"  => StandardAttr::class,
+    "rel"         => StandardAttr::class,
+    "base "       => StandardAttr::class,
+    "defer"       => StandardAttr::class,
+    "async"       => StandardAttr::class,
+    "sizes"       => StandardAttr::class,
+    "crossorigin" => StandardAttr::class,
+    "lang"        => StandardAttr::class,
+    "property"    => StandardAttr::class,
+    "selected"    => RawAttr::class,
+    "disabled"    => RawAttr::class,
+    "class"       => ClassAttr::class,
+    "style"       => StyleAttr::class,
+    "id"          => StandardAttr::class,
     ];
 
     public function __construct(string $templateString = '')
@@ -149,7 +151,6 @@ class RawTag extends DomBlock
 
         parent::beforeRender();
     }
-
 
     protected function afterRender(string &$sectionContents): void
     {

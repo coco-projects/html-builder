@@ -49,7 +49,7 @@ class DomBlock extends TreeNode
     /**
      * 渲染节点计算完之后，返回之前对值做一些处理
      *
-     * @var array $defaultValue
+     * @var array $afterSectionRender
      */
     protected array $afterSectionRender = [];
 
@@ -333,10 +333,23 @@ class DomBlock extends TreeNode
             &$contents,
         ]);
 
-        $this->setInnerContents($contents);
+        $this->appendInnerContents($contents);
 
         return $this;
     }
+
+    /**
+     * 附加内部内容，填充 INNER_CONTENTS 节点
+     *
+     * @param mixed $innerContents
+     *
+     * @return $this
+     */
+    public function appendInnerContents(mixed $innerContents): static
+    {
+        return $this->appendSubsection('INNER_CONTENTS', $innerContents);
+    }
+
 
     /**
      * 设置内部内容，填充 INNER_CONTENTS 节点
@@ -347,7 +360,7 @@ class DomBlock extends TreeNode
      */
     public function setInnerContents(mixed $innerContents): static
     {
-        return $this->appendSubsection('INNER_CONTENTS', $innerContents);
+        return $this->setSubsection('INNER_CONTENTS', $innerContents);
     }
 
 

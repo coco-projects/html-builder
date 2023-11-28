@@ -44,6 +44,6 @@
     $dom1 = DoubleTag::ins();
     $dom1->appendSubsection('TAG__NAME', 'div');
     $dom1->appendSubsection('ATTRS', $r);
-    $dom1->setInnerContents('hello');
+    $dom1->appendInnerContents('hello');
 
     print_r($dom1->render());

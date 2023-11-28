@@ -13,7 +13,7 @@ class DoubleTag extends RawTag
 CONTENTS;
         parent::__construct($templateString);
         $tagName && $this->tagName($tagName);
-        $innerContents && $this->setInnerContents($innerContents);
+        $innerContents && $this->appendInnerContents($innerContents);
     }
 
     /**
