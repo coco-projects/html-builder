@@ -140,6 +140,10 @@ class RawTag extends DomBlock
 
     protected function beforeRender(): void
     {
+        //生成这两个对象，否则不会生成属性
+        $this->getAttr('class');
+        $this->getAttr('style');
+
         $attrString = (string)$this->attrRegistry.' {:__ATTRS__:}';
 
         $node = DomBlock::ins($attrString);

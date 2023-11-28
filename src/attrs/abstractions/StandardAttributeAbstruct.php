@@ -83,7 +83,7 @@ abstract class StandardAttributeAbstruct extends AttributeBaseAbstruct
      */
     protected function evalAttrs(): string|int
     {
-        if ($this->getKey() && $this->getValue()) {
+        if ($this->getKey()) {
             return $this->getKey() . '="' . strtr((string)$this->getValue(), ['"' => '\"',]) . '"';
         }
 
