@@ -81,6 +81,14 @@ abstract class ArrayAttributeAbstruct extends StandardAttributeAbstruct
         return isset($this->attrsArray[$value]);
     }
 
+    public function clearValue(): static
+    {
+        $this->attrsArray = [];
+        $this->setValue('');
+
+        return $this;
+    }
+
     /**
      * @return string
      */

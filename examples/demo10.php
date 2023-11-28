@@ -8,7 +8,8 @@
 
         $this_->getAttr('class')->addAttr('layui-disabled');
         $this_->getAttr('class')->addAttr('layui-ok');
-        $this_->getAttr('style')->setAttrKv('background', '#f0f');
+        $this_->getAttr('style')->setAttrKv('background', '#f0f')->clearValue();
+
 
         $this_->getCustomAttrsRegistry()->appendClass("layui-container");
         $this_->getCustomAttrsRegistry()->appendStyleKv("width", '200px');
@@ -26,9 +27,15 @@
         $this_->getCustomAttrsRegistry()->removeAttr('lay-selected');
         $this_->getCustomAttrsRegistry()->removeAttr('a');
 
-//        $this_->getCustomAttrsRegistry()->clearAttrs();
-//        $this_->getCustomAttrsRegistry()->clearClass();
-//        $this_->getCustomAttrsRegistry()->clearStyle();
+        $this_->getCustomAttrsRegistry()->clearAttrs();
+        $this_->getCustomAttrsRegistry()->clearClass();
+        $this_->getCustomAttrsRegistry()->clearStyle();
+
+        $this_->getCustomAttrsRegistry()->appendClass("layui-container1111");
+
+        $this_->getCustomAttrsRegistry()->appendAttrKvArr([
+            "c" => "cc",
+        ]);
 
     });
 

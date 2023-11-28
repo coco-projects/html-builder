@@ -47,7 +47,7 @@ abstract class KVAttributeAbstruct extends StandardAttributeAbstruct
     public function setAttrKv(string $key, string|int $value): static
     {
         $this->AttrKv[$key] = $value;
-        $this->setValue($this->buildKVString());
+        $this->setValue($this->toValueString());
 
         return $this;
     }
@@ -61,7 +61,7 @@ abstract class KVAttributeAbstruct extends StandardAttributeAbstruct
     {
         if (isset($this->AttrKv[$key])) {
             unset($this->AttrKv[$key]);
-            $this->setValue($this->buildKVString());
+            $this->setValue($this->toValueString());
         }
 
         return $this;
@@ -78,6 +78,16 @@ abstract class KVAttributeAbstruct extends StandardAttributeAbstruct
     }
 
     /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function hasAttrKv(string $key): bool
+    {
+        return isset($this->AttrKv[$key]);
+    }
+
+    /**
      * @return array
      */
     public function getAllAttrKv(): array
@@ -85,6 +95,13 @@ abstract class KVAttributeAbstruct extends StandardAttributeAbstruct
         return $this->AttrKv;
     }
 
+    public function clearValue(): static
+    {
+        $this->AttrKv = [];
+        $this->setValue('');
+
+        return $this;
+    }
 
     /**
      * @return string
@@ -105,4 +122,10 @@ abstract class KVAttributeAbstruct extends StandardAttributeAbstruct
      * @return string
      */
     abstract protected function getTemplate(): string;
+
+
+    /**
+     * @return string
+     */
+    abstract protected function toValueString(): string;
 }

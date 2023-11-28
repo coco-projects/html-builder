@@ -21,4 +21,9 @@ class StyleAttr extends KVAttributeAbstruct
     {
         return '__KEY__:__VALUE__;';
     }
+
+    protected function toValueString(): string
+    {
+        return $this->buildKVString();
+    }
 }
