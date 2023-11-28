@@ -79,6 +79,16 @@ abstract class StandardAttributeAbstruct extends AttributeBaseAbstruct
     }
 
     /**
+     * @return $this
+     */
+    public function clearValue(): static
+    {
+        $this->value = '';
+
+        return $this;
+    }
+
+    /**
      * @return string|int
      */
     protected function evalAttrs(): string|int
