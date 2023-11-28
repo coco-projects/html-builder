@@ -58,6 +58,7 @@ class AttrRegistry
     public function removeManagerObjectByLabel(string $label): static
     {
         unset($this->managerObjects[$label]);
+
         return $this;
     }
 
@@ -70,9 +71,9 @@ class AttrRegistry
     }
 
     /**
-     * @return string
+     * @return string|int
      */
-    public function toString(): string
+    public function evalAttrsToString(): string|int
     {
         $results = [];
 
@@ -88,7 +89,7 @@ class AttrRegistry
 
     public function __toString(): string
     {
-        return $this->toString();
+        return (string)$this->evalAttrsToString();
     }
 
     public function __isset(mixed $offset): bool

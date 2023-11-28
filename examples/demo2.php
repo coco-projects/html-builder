@@ -40,6 +40,6 @@
 
     $r->getManager('id')->setKey('id')->setValue('link3');
 
-    print_r($r);
+//    print_r($r);
     echo PHP_EOL;
-    echo $r->toString();
+    echo $r->evalAttrsToString();

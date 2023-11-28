@@ -15,7 +15,7 @@ abstract class AttributeBaseAbstruct
     use Statization;
 
     protected string|int $attrsString = '';
-    protected bool       $isEnable    = true;
+    private bool       $isEnable    = true;
 
     /**
      * @return bool
@@ -38,24 +38,41 @@ abstract class AttributeBaseAbstruct
     }
 
     /**
-     * @return string
+     * @return string|int
      */
-    public function getAttrsString(): string
+    public function getAttrsString(): string|int
     {
-        return $this->toString();
+        $str = $this->evalAttrs();
+        $this->beforeGetAttrsString($str);
+        return $str;
     }
 
+    /**
+     * @param string|int $attrsString
+     *
+     * @return $this
+     */
+    public function setAttrsString(string|int $attrsString): static
+    {
+        $this->attrsString = $attrsString;
+
+        return $this;
+    }
+
+    public function beforeGetAttrsString(string &$str): void
+    {
+    }
 
     /**
      * @return string
      */
     public function __toString(): string
     {
-        return $this->isEnable() ? $this->toString() : '';
+        return $this->isEnable() ? $this->getAttrsString() : '';
     }
 
     /**
-     * @return string
+     * @return string|int
      */
-    abstract protected function toString(): string;
+    abstract protected function evalAttrs(): string|int;
 }

@@ -14,7 +14,7 @@ class JSCode extends DomSection
         parent::__construct($code);
     }
 
-    public function afterRender(string &$sectionContents)
+    public function afterRender(string &$sectionContents): void
     {
         if (!$this::$isDebug) {
             $minifier = new JS();

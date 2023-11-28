@@ -18,15 +18,9 @@ class Link extends SingleTag
         });
     }
 
-
-    /**
-     * 渲染节点计算完之后，返回之前对值做一些处理
-     *
-     * 在字节点中自己定义后写业务逻辑
-     *
-     */
     protected function initAfterSectionRender(): void
     {
+        parent::initAfterSectionRender();
     }
 
     /**
@@ -37,8 +31,9 @@ class Link extends SingleTag
      *
      * @return void
      */
-    public function afterRender(string &$sectionContents)
+    public function afterRender(string &$sectionContents): void
     {
+        parent::afterRender($sectionContents);
     }
 
     /**
@@ -48,7 +43,8 @@ class Link extends SingleTag
      *
      * @return void
      */
-    public function beforeRender()
+    public function beforeRender(): void
     {
+        parent::beforeRender();
     }
 }

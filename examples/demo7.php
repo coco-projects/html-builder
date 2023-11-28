@@ -15,22 +15,19 @@
 
         $this_->appendSubsection('TITLE', DomBlock::$var['title']);
 
-        $this_->meta('<meta charset="utf-8" />');
+        $this_->metaRaw('<meta charset="utf-8" />');
 
-        $this_->meta([
+        $this_->metaKv([
             "name"    => "viewport",
             "content" => "width=device-width, initial-scale=1",
-        ], [
-            'test-attr1',
-            'test-attr2',
         ]);
 
-        $this_->meta([
+        $this_->metaKv([
             "name"    => "description",
             "content" => "这是网页的描述",
         ]);
 
-        $this_->meta([
+        $this_->metaKv([
             "name"    => "keywords",
             "content" => "keyword1, keyword2, keyword3",
         ]);

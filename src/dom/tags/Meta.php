@@ -9,18 +9,26 @@
 
 class Meta extends SingleTag
 {
-    public function __construct(string|array $kvAttr = [], array $rawAttr = [])
+    public array $str = [];
+
+    public function __construct()
     {
         parent::__construct('meta');
         $this->addAttr('raw', RawAttr::class);
-        if (is_array($kvAttr)) {
-            $kvAttr = $this->addNativeAttr($kvAttr, $rawAttr);
-        }
-
-        $this->getAttr('raw')->setAttrsString($kvAttr);
     }
 
-    public function addNativeAttr(array $kvAttr = [], array $rawAttr = []): string
+    /**
+     * @param array $kvAttr
+     *
+     *      [
+     * "name"    => "viewport",
+     * "content" => "width=device-width, initial-scale=1",
+     * ]
+     *
+     *
+     * @return $this
+     */
+    public function addKvAttr(array $kvAttr): static
     {
         $str = [];
 
@@ -28,24 +36,13 @@ class Meta extends SingleTag
             $str[] = $k . '="' . strtr((string)$v, ['"' => '\"',]) . '"';
         }
 
-        foreach ($rawAttr as $v) {
-            $str[] = $v;
-        }
+        $this->str = array_merge($this->str, $str);
 
-        return implode(' ', $str);
+        return $this;
     }
-
-
-
-
-    /**
-     * 渲染节点计算完之后，返回之前对值做一些处理
-     *
-     * 在字节点中自己定义后写业务逻辑
-     *
-     */
     protected function initAfterSectionRender(): void
     {
+        parent::initAfterSectionRender();
     }
 
     /**
@@ -56,8 +53,9 @@ class Meta extends SingleTag
      *
      * @return void
      */
-    public function afterRender(string &$sectionContents)
+    public function afterRender(string &$sectionContents): void
     {
+        parent::afterRender($sectionContents);
     }
 
     /**
@@ -67,7 +65,9 @@ class Meta extends SingleTag
      *
      * @return void
      */
-    public function beforeRender()
+    public function beforeRender(): void
     {
+        $this->getAttr('raw')->setAttrsString(implode(' ', $this->str));
+        parent::beforeRender();
     }
 }

@@ -21,4 +21,10 @@ class ClassAttr extends ArrayAttributeAbstruct
     {
         return implode(' ', $this->getAttrs());
     }
+
+
+    public function beforeGetAttrsString(string &$str): void
+    {
+        $str = preg_replace('/(")$/im', ' {:__CLASS__:}$1', $str);
+    }
 }

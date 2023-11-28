@@ -14,22 +14,10 @@ class RawAttr extends AttributeBaseAbstruct
     }
 
     /**
-     * @param string|int $attrsString
-     *
-     * @return RawAttr
+     * @return string|int
      */
-    public function setAttrsString(string|int $attrsString): RawAttr
+    public function evalAttrs(): string|int
     {
-        $this->attrsString = $attrsString;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function toString(): string
-    {
-        return (string)$this->attrsString;
+        return $this->attrsString;
     }
 }

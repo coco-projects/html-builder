@@ -25,6 +25,20 @@ abstract class KVAttributeAbstruct extends StandardAttributeAbstruct
     }
 
     /**
+     * @param array $kv
+     *
+     * @return $this
+     */
+    public function importKv(array $kv): static
+    {
+        array_walk($kv, function (string|int $v, string $k) {
+            $this->setAttrKv($k, $v);
+        });
+
+        return $this;
+    }
+
+    /**
      * @param string     $key
      * @param string|int $value
      *
@@ -39,15 +53,16 @@ abstract class KVAttributeAbstruct extends StandardAttributeAbstruct
     }
 
     /**
-     * @param array $kv
+     * @param string $key
      *
      * @return $this
      */
-    public function importKv(array $kv): static
+    public function removeKv(string $key): static
     {
-        array_walk($kv, function (string|int $v, string $k) {
-            $this->setAttrKv($k, $v);
-        });
+        if (isset($this->AttrKv[$key])) {
+            unset($this->AttrKv[$key]);
+            $this->setValue($this->buildKVString());
+        }
 
         return $this;
     }
@@ -70,15 +85,6 @@ abstract class KVAttributeAbstruct extends StandardAttributeAbstruct
         return $this->AttrKv;
     }
 
-    public function removeKv(string $key): static
-    {
-        if (isset($this->AttrKv[$key])) {
-            unset($this->AttrKv[$key]);
-            $this->setValue($this->buildKVString());
-        }
-
-        return $this;
-    }
 
     /**
      * @return string

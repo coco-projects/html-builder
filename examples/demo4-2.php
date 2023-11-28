@@ -11,7 +11,7 @@
 
     require '../vendor/autoload.php';
 
-    $dom1 = DoubleTag::ins('div')->setInnerContents('hello');
+    $dom1 = DoubleTag::ins('div')->setInnerContents('hello--');
 
     $dom1->setInnerContents([
         'hello',

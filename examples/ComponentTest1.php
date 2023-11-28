@@ -22,7 +22,7 @@
         public function __construct()
         {
             $template = <<<'CONTENTS'
-                <button type="button" class="layui-btn layui-bg-{:btn_color:} " data-msg='{:btn_msg:}' id="coco-layer-btn-msg-{:btn_id:}">{:btn_text:}</button>
+                <button type="button" class="layui-btn layui-bg-{:btn_color:} " data-msg='{:btn_msg:}' id="coco-layer-btn-msg-{:btn_id:} {:__CLASS__:}" style="{:__STYLE__:}" {:__ATTRS__:}>{:btn_text:}</button>
 CONTENTS;
             parent::__construct($template);
         }

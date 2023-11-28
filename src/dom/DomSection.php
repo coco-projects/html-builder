@@ -4,7 +4,7 @@
 
     namespace Coco\htmlBuilder\dom;
 
-    use Coco\htmlBuilder\attrs\AttrRegistry;
+    use Coco\htmlBuilder\attrs\CustomAttrs;
     use Coco\htmlBuilder\dom\tags\CSSCode;
     use Coco\htmlBuilder\dom\tags\JSCode;
     use Coco\htmlBuilder\dom\tags\Link;
@@ -33,8 +33,7 @@ class DomSection extends DomBlock
     public function __construct(mixed $templateString = '')
     {
         parent::__construct($templateString);
-        $this['attrRegistry'] = AttrRegistry::ins();
-        $this->appendSubsection('ATTRS', $this['attrRegistry']);
+        $this->baseCustomAttrsRegistry = CustomAttrs::ins();
         $this->makeScriptSection();
         $this->makeStyleSection();
         $this->init();
@@ -130,18 +129,26 @@ class DomSection extends DomBlock
     /**
      * 添加 meta 标签
      *
-     * @param array|string $kvAttr
-     * @param array        $rawAttr
+     * @return DomSection
+     */
+    public function metaKv(array $kvAttr): static
+    {
+        $this->appendRootSection('HEAD', Meta::ins()->addKvAttr($kvAttr));
+
+        return $this;
+    }
+
+
+    /**
+     * 添加 meta 标签
+     *
+     * <meta charset="utf-8" />
      *
      * @return DomSection
      */
-    public function meta(array|string $kvAttr = [], array $rawAttr = []): static
+    public function metaRaw(string $raw): static
     {
-        if (is_string($kvAttr)) {
-            $this->appendRootSection('HEAD', $kvAttr);
-        } else {
-            $this->appendRootSection('HEAD', Meta::ins($kvAttr, $rawAttr));
-        }
+        $this->appendRootSection('HEAD', $raw);
 
         return $this;
     }
@@ -235,5 +242,38 @@ class DomSection extends DomBlock
      */
     protected function init(): void
     {
+    }
+
+
+    /**
+     * 获取自定义属性管理器
+     *
+     * @return CustomAttrs
+     */
+    public function getCustomAttrsRegistry(): CustomAttrs
+    {
+        return $this->baseCustomAttrsRegistry;
+    }
+
+    protected function initAfterSectionRender(): void
+    {
+        parent::initAfterSectionRender();
+    }
+
+    protected function beforeRender(): void
+    {
+        $this->setSubsections([
+            "__CLASS__" => $this->getCustomAttrsRegistry()->evalClass(),
+            "__STYLE__" => $this->getCustomAttrsRegistry()->evalStyle(),
+            "__ATTRS__" => $this->getCustomAttrsRegistry()->evalAttrs(),
+        ]);
+
+        parent::beforeRender();
+    }
+
+
+    protected function afterRender(string &$sectionContents): void
+    {
+        parent::afterRender($sectionContents);
     }
 }

@@ -4,12 +4,6 @@
 
     namespace Coco\htmlBuilder\dom;
 
-    use Coco\htmlBuilder\attrs\AttrRegistry;
-    use Coco\htmlBuilder\attrs\ClassAttr;
-    use Coco\htmlBuilder\attrs\DataAttr;
-    use Coco\htmlBuilder\attrs\RawAttr;
-    use Coco\htmlBuilder\attrs\StandardAttr;
-    use Coco\htmlBuilder\attrs\StyleAttr;
     use Coco\htmlBuilder\traits\Statization;
     use Coco\magicAccess\MagicMethod;
     use Coco\tree\TreeNode;
@@ -70,45 +64,6 @@ class DomBlock extends TreeNode
      * @var bool $isDebug
      */
     public static bool $isDebug = true;
-
-    /**
-     * 常用属性和类型映射
-     *
-     * @var array|string[] $attrRegistryMap
-     */
-    protected static array $attrRegistryMap = [
-        "href"        => StandardAttr::class,
-        "target"      => StandardAttr::class,
-        "src"         => StandardAttr::class,
-        "alt"         => StandardAttr::class,
-        "width"       => StandardAttr::class,
-        "height"      => StandardAttr::class,
-        "action"      => StandardAttr::class,
-        "method"      => StandardAttr::class,
-        "type"        => StandardAttr::class,
-        "name"        => StandardAttr::class,
-        "value"       => StandardAttr::class,
-        "rows"        => StandardAttr::class,
-        "cols"        => StandardAttr::class,
-        "for"         => StandardAttr::class,
-        "charset"     => StandardAttr::class,
-        "description" => StandardAttr::class,
-        "content"     => StandardAttr::class,
-        "http_equiv"  => StandardAttr::class,
-        "rel"         => StandardAttr::class,
-        "base "       => StandardAttr::class,
-        "defer"       => StandardAttr::class,
-        "async"       => StandardAttr::class,
-        "sizes"       => StandardAttr::class,
-        "crossorigin" => StandardAttr::class,
-        "lang"        => StandardAttr::class,
-        "property"    => StandardAttr::class,
-        "selected"    => RawAttr::class,
-        "disabled"    => RawAttr::class,
-        "class"       => ClassAttr::class,
-        "style"       => StyleAttr::class,
-        "id"          => StandardAttr::class,
-    ];
 
     public function __construct(mixed $templateString = '')
     {
@@ -181,61 +136,6 @@ class DomBlock extends TreeNode
         $this->isHidden = $isHidden;
 
         return $this;
-    }
-
-    /**
-     * 注册属性和类型映射表，注册后，getAttr 获取类型时是惰性加载
-     *
-     * @param string $attrName
-     * @param string $attrType
-     *
-     * @return void
-     */
-    public static function attrRegister(string $attrName, string $attrType): void
-    {
-        static::$attrRegistryMap[$attrName] = $attrType;
-    }
-
-    /**
-     * 获取属性对象
-     *
-     * @param string $attrName
-     *
-     * @return ClassAttr|DataAttr|RawAttr|StandardAttr|StyleAttr|null
-     */
-    public function getAttr(string $attrName): ClassAttr|DataAttr|RawAttr|StandardAttr|StyleAttr|null
-    {
-        if (!isset($this['attrRegistry']->$attrName)) {
-            $this->addAttr($attrName, static::$attrRegistryMap[$attrName]);
-        }
-
-        return $this['attrRegistry']->$attrName;
-    }
-
-    /**
-     * 添加一个属性对象
-     *
-     * @param string $attrName
-     * @param string $attrType
-     *
-     * @return $this
-     */
-    public function addAttr(string $attrName, string $attrType): static
-    {
-        $this['attrRegistry']->$attrName = $attrType;
-
-        return $this;
-    }
-
-
-    /**
-     * 获取属性管理器
-     *
-     * @return AttrRegistry
-     */
-    public function getAttrRegistry(): AttrRegistry
-    {
-        return $this['attrRegistry'];
     }
 
     /**
@@ -338,7 +238,7 @@ class DomBlock extends TreeNode
                 if ($sectionId !== -1) {
                     $node = $this->getChildRecrusive($sectionId);
 
-                    $this['sectionsContents'][$sectionName] .= static::evelSectionValue($node['template']);
+                    $this['sectionsContents'][$sectionName] .= static::evalSectionValue($node['template']);
                 }
             }
 
@@ -533,7 +433,7 @@ class DomBlock extends TreeNode
      *
      * @return string
      */
-    protected static function evelSectionValue(mixed $sectionNode): string
+    protected static function evalSectionValue(mixed $sectionNode): string
     {
         $str = '';
 
@@ -543,14 +443,13 @@ class DomBlock extends TreeNode
             $str = $sectionNode;
         } elseif (is_array($sectionNode)) {
             $str_ = [];
-
             foreach ($sectionNode as $k => $v) {
-                $str_[] = static::evelSectionValue($v);
+                $str_[] = static::evalSectionValue($v);
             }
-
             $str = implode('', $str_);
         } elseif (is_callable($sectionNode)) {
-            $str = call_user_func_array($sectionNode, []);
+            $t   = call_user_func_array($sectionNode, []);
+            $str = static::evalSectionValue($t);
         } else {
             $str = (string)$sectionNode;
         }
@@ -618,7 +517,7 @@ class DomBlock extends TreeNode
      *
      * @return void
      */
-    protected function afterRender(string &$sectionContents)
+    protected function afterRender(string &$sectionContents): void
     {
     }
 
@@ -629,7 +528,7 @@ class DomBlock extends TreeNode
      *
      * @return void
      */
-    protected function beforeRender()
+    protected function beforeRender(): void
     {
     }
 }

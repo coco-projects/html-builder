@@ -24,6 +24,7 @@ CONTENTS;
      */
     protected function initAfterSectionRender(): void
     {
+        parent::initAfterSectionRender();
     }
 
     /**
@@ -34,8 +35,9 @@ CONTENTS;
      *
      * @return void
      */
-    public function afterRender(string &$sectionContents)
+    public function afterRender(string &$sectionContents): void
     {
+        parent::afterRender($sectionContents);
     }
 
     /**
@@ -45,7 +47,8 @@ CONTENTS;
      *
      * @return void
      */
-    public function beforeRender()
+    public function beforeRender(): void
     {
+        parent::beforeRender();
     }
 }

@@ -17,9 +17,9 @@ class DataAttr extends StandardAttributeAbstruct
     /**
      * @param string $key
      *
-     * @return StandardAttributeAbstruct
+     * @return $this
      */
-    public function setKey(string $key): StandardAttributeAbstruct
+    public function setKey(string $key): static
     {
         ($key && parent::setKey('data-' . $key));
 
@@ -30,9 +30,9 @@ class DataAttr extends StandardAttributeAbstruct
      * @param string     $key
      * @param string|int $value
      *
-     * @return StandardAttributeAbstruct
+     * @return $this
      */
-    public function setDataKv(string $key = '', string|int $value = ''): StandardAttributeAbstruct
+    public function setDataKv(string $key = '', string|int $value = ''): static
     {
         ($key && parent::setKey('data-' . $key));
         $this->setValue($value);

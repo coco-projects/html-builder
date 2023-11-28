@@ -51,6 +51,7 @@ CONTENTS;
      */
     protected function initAfterSectionRender(): void
     {
+        parent::initAfterSectionRender();
     }
 
     /**
@@ -62,7 +63,7 @@ CONTENTS;
      * @return void
      */
 
-    public function afterRender(string &$sectionContents)
+    public function afterRender(string &$sectionContents): void
     {
         if (!$this::$isDebug) {
             $htmlMin = new HtmlMin();
@@ -95,6 +96,7 @@ CONTENTS;
             //      $htmlMin->doMakeSameDomainsLinksRelative(['example.com']);    // 使某些链接相对化，去掉属性中的域名部分
             $sectionContents = $htmlMin->minify($sectionContents);
         }
+        parent::afterRender($sectionContents);
     }
 
     /**
@@ -104,7 +106,8 @@ CONTENTS;
      *
      * @return void
      */
-    public function beforeRender()
+    public function beforeRender(): void
     {
+        parent::beforeRender();
     }
 }

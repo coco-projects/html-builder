@@ -24,8 +24,6 @@
             "layer-text",
         ]);
 
-
-
         $this_->addAttr('data_pid', DataAttr::class);
         $this_->getAttr('data_pid')->setDataKv('pid')->setValue(20)->setIsEnable(false);
 

@@ -24,9 +24,9 @@ abstract class ArrayAttributeAbstruct extends StandardAttributeAbstruct
     /**
      * @param array $attrsArray
      *
-     * @return ArrayAttributeAbstruct
+     * @return $this
      */
-    public function setAttrsArray(array $attrsArray): ArrayAttributeAbstruct
+    public function setAttrsArray(array $attrsArray): static
     {
         $this->attrsArray = array_flip($attrsArray);
         $this->setValue($this->toValueString());

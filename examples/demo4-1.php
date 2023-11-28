@@ -9,8 +9,6 @@
 
     require '../vendor/autoload.php';
 
-
-
     $r = AttrRegistry::ins();
 
     $r->href     = StandardAttr::class;
@@ -59,8 +57,9 @@
 
     //    echo $r;
 
-    $dom1 = \Coco\htmlBuilder\dom\SingleTag::ins();
-    $dom1->appendSubsection('TAG__NAME', 'hr');
+    $dom1 = \Coco\htmlBuilder\dom\DoubleTag::ins();
+    $dom1->appendSubsection('TAG__NAME', 'div');
     $dom1->appendSubsection('ATTRS', $r);
+    $dom1->setInnerContents('hello');
 
     print_r($dom1->render());

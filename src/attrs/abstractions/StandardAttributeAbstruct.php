@@ -11,8 +11,8 @@
      */
 abstract class StandardAttributeAbstruct extends AttributeBaseAbstruct
 {
-    protected string     $key   = '';
-    protected string|int $value = '';
+    private string $key   = '';
+    private mixed  $value = '';
 
     public function __construct(string $key = '', string|int $value = '')
     {
@@ -39,9 +39,9 @@ abstract class StandardAttributeAbstruct extends AttributeBaseAbstruct
      *
      * @param string $key
      *
-     * @return StandardAttributeAbstruct
+     * @return $this
      */
-    public function setKey(string $key): StandardAttributeAbstruct
+    public function setKey(string $key): static
     {
         $this->key = $key;
 
@@ -53,9 +53,9 @@ abstract class StandardAttributeAbstruct extends AttributeBaseAbstruct
      *
      * @param string|int $value
      *
-     * @return StandardAttributeAbstruct
+     * @return $this
      */
-    public function setValue(string|int $value): StandardAttributeAbstruct
+    public function setValue(string|int $value): static
     {
         $this->value = $value;
 
@@ -78,7 +78,10 @@ abstract class StandardAttributeAbstruct extends AttributeBaseAbstruct
         return $this->value;
     }
 
-    protected function toString(): string
+    /**
+     * @return string|int
+     */
+    protected function evalAttrs(): string|int
     {
         if ($this->getKey() && $this->getValue()) {
             return $this->getKey() . '="' . strtr((string)$this->getValue(), ['"' => '\"',]) . '"';

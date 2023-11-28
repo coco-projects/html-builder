@@ -6,11 +6,11 @@
     use Coco\htmlBuilder\attrs\RawAttr;
     use Coco\htmlBuilder\attrs\StandardAttr;
     use Coco\htmlBuilder\attrs\StyleAttr;
+    use Coco\htmlBuilder\dom\DoubleTag;
 
     require '../vendor/autoload.php';
 
     $r = AttrRegistry::ins();
-
 
     $r->initManager('id', StandardAttr::class)->initManager('target', StandardAttr::class)
         ->initManager('raw', RawAttr::class)->initManager('class', ClassAttr::class)
@@ -41,8 +41,9 @@
 
     //    echo $r;
 
-    $dom1 = \Coco\htmlBuilder\dom\SingleTag::ins();
-    $dom1->appendSubsection('TAG__NAME', 'hr');
+    $dom1 = DoubleTag::ins();
+    $dom1->appendSubsection('TAG__NAME', 'div');
     $dom1->appendSubsection('ATTRS', $r);
+    $dom1->setInnerContents('hello');
 
     print_r($dom1->render());

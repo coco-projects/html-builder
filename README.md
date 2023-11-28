@@ -36,9 +36,9 @@ composer require coco-project/html-builder
 
         $this_->appendSubsection('TITLE', DomBlock::$var['title']);
 
-        $this_->meta('<meta charset="utf-8" />');
+        $this_->metaKv('<meta charset="utf-8" />');
 
-        $this_->meta([
+        $this_->metaKv([
             "name"    => "viewport",
             "content" => "width=device-width, initial-scale=1",
         ], [
@@ -46,12 +46,12 @@ composer require coco-project/html-builder
             'test-attr2',
         ]);
 
-        $this_->meta([
+        $this_->metaKv([
             "name"    => "description",
             "content" => "这是网页的描述",
         ]);
 
-        $this_->meta([
+        $this_->metaKv([
             "name"    => "keywords",
             "content" => "keyword1, keyword2, keyword3",
         ]);
