@@ -62,6 +62,9 @@ class RawTag extends DomBlock
 
         $this->attrRegistry            = AttrRegistry::ins();
         $this->baseCustomAttrsRegistry = CustomAttrs::ins();
+        $this->makeScriptSection();
+        $this->makeStyleSection();
+        $this->init();
     }
 
     /**
