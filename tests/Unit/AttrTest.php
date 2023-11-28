@@ -66,7 +66,7 @@ AAA
         })->process(function (Document $this_, array &$inner) {
 
             $inner[] = DoubleTag::ins('div')->process(function (DoubleTag $this_, array &$inner) {
-                $this_->getAttr('class')->setAttrsArray([
+                $this_->getAttr('class')->addAttrsArray([
                     "layui-container",
                 ]);
 
@@ -197,7 +197,7 @@ AAA
             );
 
             $inner[] = DoubleTag::ins('div')->process(function (DoubleTag $this_, array &$inner) {
-                $this_->getAttr('class')->setAttrsArray([
+                $this_->getAttr('class')->addAttrsArray([
                     "layui-container",
                 ]);
 
@@ -263,12 +263,12 @@ AAA
                     $inner[] = DoubleTag::ins('div')->process(function (DoubleTag $this_, array &$inner) {
                         $this_->setIsHidden(!true);
 
-                        $this_->getAttr('class')->setAttrsArray([
+                        $this_->getAttr('class')->addAttrsArray([
                             "layer",
                         ]);
                         $this_->getAttr('class')->addAttr("layer-text");
 
-                        $this_->getAttrRegistry()->getManager('class')->addAttr('layer-padding-1');
+                        $this_->getAttrRegistry()->getManagerByLabel('class')->addAttr('layer-padding-1');
 
                         $this_->addAttr('data_pid', DataAttr::class);
                         $this_->getAttr('data_pid')->setDataKv('pid')->setValue(20)->setIsEnable(false);

@@ -4,44 +4,88 @@
 
     namespace Coco\htmlBuilder\attrs;
 
+    use Coco\htmlBuilder\traits\AttrRegister;
     use Coco\htmlBuilder\traits\Statization;
+    use Coco\magicAccess\MagicMethod;
 
 class CustomAttrs
 {
     use Statization;
+    use MagicMethod;
+    use AttrRegister;
 
-    protected array $attrs  = [];
-    protected array $class  = [];
-    protected array $styles = [];
+    public array $attrsLabes = [];
+
+    public function __construct()
+    {
+        $this->initRegistry();
+    }
 
     /*
      * ------------------------------------------------------
      * ------------------------------------------------------
      */
 
-    public function appendClass(string|int $class): static
+    public function appendClass(string $class): static
     {
-        $this->class[] = $class;
+        $this->getAttr('class')->addAttr($class);
 
         return $this;
     }
 
     public function appendClassArr(array $classes): static
     {
-        foreach ($classes as $k => $v) {
-            $this->appendClass($v);
-        }
+        $this->getAttr('class')->addAttrsArray($classes);
 
         return $this;
     }
+
+    public function hasClass(string $class): bool
+    {
+        return $this->getAttr('class')->hasAttr($class);
+    }
+
+    public function removeClass(string $class): static
+    {
+        $this->getAttr('class')->removeAttr($class);
+
+        return $this;
+    }
+
+    public function getAllClass(): array
+    {
+        return $this->getAttr('class')->getAttrs();
+    }
+
+    public function clearClass(): static
+    {
+        $this->getAttr('class')->clearValue();
+
+        return $this;
+    }
+
 
     /*
      * ------------------------------------------------------
      * ------------------------------------------------------
      */
-    public function appendAttrRaw(string|int $attrString): static
+    public function removeAttr(string $attrString): static
     {
-        $this->attrs[] = $attrString;
+        unset($this->attrsLabes[$attrString]);
+
+        return $this;
+    }
+
+    public function hasAttr(string $attrString): bool
+    {
+        return isset($this->attrsLabes[$attrString]);
+    }
+
+    public function appendAttrRaw(string $attrString): static
+    {
+        $this->attrsLabes[$attrString]   = 1;
+        $this->attrRegistry->$attrString = RawAttr::class;
+        $this->attrRegistry->$attrString->setAttrsString($attrString);
 
         return $this;
     }
@@ -56,13 +100,14 @@ class CustomAttrs
         return $this;
     }
 
-    public function appendAttrKv(string|int $key, string|int $value): static
+    public function appendAttrKv(string $key, string|int $value): static
     {
-        $this->attrs[] = $key . '="' . $value . '"';
+        $this->attrsLabes[$key]   = 1;
+        $this->attrRegistry->$key = StandardAttr::class;
+        $this->attrRegistry->$key->setKey($key)->setValue($value);
 
         return $this;
     }
-
 
     public function appendAttrKvArr(array $arr): static
     {
@@ -73,39 +118,57 @@ class CustomAttrs
         return $this;
     }
 
+    public function clearAttrs(): static
+    {
+        $this->attrsLabes = [];
+
+        return $this;
+    }
+
     /*
      * ------------------------------------------------------
      * ------------------------------------------------------
      */
-    public function appendStyleRaw(string|int $attr): static
+
+    public function appendStyleKv(string $key, string|int $value): static
     {
-        $this->styles[] = $attr;
-
-        return $this;
-    }
-
-    public function appendStyleRawArr(array $attrs): static
-    {
-        foreach ($attrs as $k => $v) {
-            $this->appendStyleRaw($v);
-        }
-
-        return $this;
-    }
-
-
-    public function appendStyleKv(string|int $key, string|int $value): static
-    {
-        $this->styles[] = "{$key}:{$value};";
+        $this->getAttr('style')->setAttrKv($key, $value);
 
         return $this;
     }
 
     public function appendStyleKvArr(array $arr): static
     {
-        foreach ($arr as $k => $v) {
-            $this->appendStyleKv($k, $v);
-        }
+        $this->getAttr('style')->importKv($arr);
+
+        return $this;
+    }
+
+    public function removeStyle(string $key): static
+    {
+        $this->getAttr('style')->removeKv($key);
+
+        return $this;
+    }
+
+    public function getStyleKv(string $key): string
+    {
+        return $this->getAttr('style')->getAttrKv($key);
+    }
+
+    public function hasStyleKv(string $key): bool
+    {
+        return $this->getAttr('style')->hasAttrKv($key);
+    }
+
+    public function getAllStyleKv(): array
+    {
+        return $this->getAttr('style')->getAllAttrKv();
+    }
+
+    public function clearStyle(): static
+    {
+        $this->getAttr('style')->clearValue();
 
         return $this;
     }
@@ -116,16 +179,16 @@ class CustomAttrs
      */
     public function evalAttrs(): string|int
     {
-        return implode(' ', $this->attrs);
+        return ' ' . $this->attrRegistry->evalAttrsByLabels(array_keys($this->attrsLabes));
     }
 
     public function evalClass(): string
     {
-        return implode(' ', $this->class);
+        return ' ' . $this->getAttr('class')->getValue();
     }
 
     public function evalStyle(): string
     {
-        return implode('', $this->styles);
+        return ' ' . $this->getAttr('style')->getValue();
     }
 }

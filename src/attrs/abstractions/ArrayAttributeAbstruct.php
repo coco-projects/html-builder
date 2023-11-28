@@ -18,7 +18,7 @@ abstract class ArrayAttributeAbstruct extends StandardAttributeAbstruct
     public function __construct(array $attrsArray = [])
     {
         parent::__construct('', '');
-        $this->setAttrsArray($attrsArray);
+        $this->addAttrsArray($attrsArray);
     }
 
     /**
@@ -26,10 +26,11 @@ abstract class ArrayAttributeAbstruct extends StandardAttributeAbstruct
      *
      * @return $this
      */
-    public function setAttrsArray(array $attrsArray): static
+    public function addAttrsArray(array $attrsArray): static
     {
-        $this->attrsArray = array_flip($attrsArray);
-        $this->setValue($this->toValueString());
+        foreach ($attrsArray as $k => $v) {
+            $this->addAttr($v);
+        }
 
         return $this;
     }

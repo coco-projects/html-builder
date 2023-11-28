@@ -20,25 +20,25 @@
         ->initManager('data-pid', DataAttr::class)
         ->initManager('style', StyleAttr::class);
 
-    $r->getManager('id')->setKey('id')->setValue('link1');
+    $r->getManagerByLabel('id')->setKey('id')->setValue('link1');
 
-    $r->getManager('target')->setKey('target')->setValue('_blank');
+    $r->getManagerByLabel('target')->setKey('target')->setValue('_blank');
 
-    $r->getManager('class')->setAttrsArray([
+    $r->getManagerByLabel('class')->addAttrsArray([
         'layer',
         'layer-text',
     ])->removeAttr('layer-text');
 
-    $r->getManager('data-pid')->setKey('pid')->setValue(20);
+    $r->getManagerByLabel('data-pid')->setKey('pid')->setValue(20);
 
-    $r->getManager('style')->importKv([
+    $r->getManagerByLabel('style')->importKv([
         "width"  => "20px",
         "height" => "120px",
     ]);
 
-    $r->getManager('raw')->setAttrsString('unselected');
+    $r->getManagerByLabel('raw')->setAttrsString('unselected');
 
-    $r->getManager('id')->setKey('id')->setValue('link3');
+    $r->getManagerByLabel('id')->setKey('id')->setValue('link3');
 
 //    print_r($r);
     echo PHP_EOL;

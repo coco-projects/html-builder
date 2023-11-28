@@ -39,7 +39,7 @@
 
         $inner[] = DomBlock::$var['test_div'] = DoubleTag::ins('div');
         DomBlock::$var['test_div']->process(function(DoubleTag $this_, array &$inner) {
-            $this_->getAttr('class')->setAttrsArray([
+            $this_->getAttr('class')->addAttrsArray([
                 "layui-container",
             ]);
 

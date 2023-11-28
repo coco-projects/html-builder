@@ -61,7 +61,7 @@ AAA
     })->process(function(Document $this_, array &$inner) {
 
         $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
-            $this_->getAttr('class')->setAttrsArray([
+            $this_->getAttr('class')->addAttrsArray([
                 "layui-container",
             ]);
 

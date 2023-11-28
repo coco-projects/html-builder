@@ -19,7 +19,7 @@
             'world',
         ];
 
-        $this_->getAttr('class')->setAttrsArray([
+        $this_->getAttr('class')->addAttrsArray([
             "layer",
             "layer-text",
         ]);

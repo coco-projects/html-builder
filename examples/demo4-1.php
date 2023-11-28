@@ -36,7 +36,7 @@
 
     $r->target->setKey('target')->setValue('_blank')->setIsEnable(!false);
 
-    $r->class->setAttrsArray([
+    $r->class->addAttrsArray([
         'layer',
         'layer-text',
     ])->removeAttr('layer-text');

@@ -14,8 +14,9 @@ abstract class AttributeBaseAbstruct
 {
     use Statization;
 
-    protected string|int $attrsString = '';
-    private bool       $isEnable    = true;
+    protected string|int $attrsString            = '';
+    private bool         $isEnable               = true;
+    private $beforeGetValueCallback = null;
 
     /**
      * @return bool
@@ -43,8 +44,24 @@ abstract class AttributeBaseAbstruct
     public function getAttrsString(): string|int
     {
         $str = $this->evalAttrs();
-        $this->beforeGetAttrsString($str);
+
+        if (is_callable($this->beforeGetValueCallback)) {
+            call_user_func_array($this->beforeGetValueCallback, [&$str]);
+        }
+
         return $str;
+    }
+
+    /**
+     * @param callable $beforeGetValueCallback
+     *
+     * @return $this
+     */
+    public function setBeforeGetValueCallback(callable $beforeGetValueCallback): static
+    {
+        $this->beforeGetValueCallback = $beforeGetValueCallback;
+
+        return $this;
     }
 
     /**
@@ -57,10 +74,6 @@ abstract class AttributeBaseAbstruct
         $this->attrsString = $attrsString;
 
         return $this;
-    }
-
-    public function beforeGetAttrsString(string &$str): void
-    {
     }
 
     /**

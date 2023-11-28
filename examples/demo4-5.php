@@ -18,11 +18,11 @@
 
         $d1 = $this_->getCopy();
 
-        $this_->getAttr('class')->setAttrsArray([
+        $this_->getAttr('class')->addAttrsArray([
             "layer",
             "layer-text",
         ]);
-        $d1->getAttr('class')->setAttrsArray([
+        $d1->getAttr('class')->addAttrsArray([
             "aaa",
             "bbb",
         ]);

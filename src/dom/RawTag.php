@@ -11,115 +11,22 @@
     use Coco\htmlBuilder\attrs\RawAttr;
     use Coco\htmlBuilder\attrs\StandardAttr;
     use Coco\htmlBuilder\attrs\StyleAttr;
+    use Coco\htmlBuilder\traits\AttrRegister;
     use Coco\htmlBuilder\traits\DomEnhancer;
 
 class RawTag extends DomBlock
 {
     use DomEnhancer;
-
-    /**
-     * 常用属性和类型映射
-     *
-     * @var array|string[] $attrRegistryMap
-     */
-    protected static array $attrRegistryMap = [
-    "href"        => StandardAttr::class,
-    "target"      => StandardAttr::class,
-    "src"         => StandardAttr::class,
-    "alt"         => StandardAttr::class,
-    "width"       => StandardAttr::class,
-    "height"      => StandardAttr::class,
-    "action"      => StandardAttr::class,
-    "method"      => StandardAttr::class,
-    "type"        => StandardAttr::class,
-    "name"        => StandardAttr::class,
-    "value"       => StandardAttr::class,
-    "rows"        => StandardAttr::class,
-    "cols"        => StandardAttr::class,
-    "for"         => StandardAttr::class,
-    "charset"     => StandardAttr::class,
-    "description" => StandardAttr::class,
-    "content"     => StandardAttr::class,
-    "http_equiv"  => StandardAttr::class,
-    "rel"         => StandardAttr::class,
-    "base "       => StandardAttr::class,
-    "defer"       => StandardAttr::class,
-    "async"       => StandardAttr::class,
-    "sizes"       => StandardAttr::class,
-    "crossorigin" => StandardAttr::class,
-    "lang"        => StandardAttr::class,
-    "property"    => StandardAttr::class,
-    "selected"    => RawAttr::class,
-    "disabled"    => RawAttr::class,
-    "class"       => ClassAttr::class,
-    "style"       => StyleAttr::class,
-    "id"          => StandardAttr::class,
-    ];
+    use AttrRegister;
 
     public function __construct(string $templateString = '')
     {
         parent::__construct($templateString);
-
-        $this->attrRegistry            = AttrRegistry::ins();
+        $this->initRegistry();
         $this->baseCustomAttrsRegistry = CustomAttrs::ins();
         $this->makeScriptSection();
         $this->makeStyleSection();
         $this->init();
-    }
-
-    /**
-     * 注册属性和类型映射表，注册后，getAttr 获取类型时是惰性加载
-     *
-     * @param string $attrName
-     * @param string $attrType
-     *
-     * @return void
-     */
-    public static function attrRegister(string $attrName, string $attrType): void
-    {
-        static::$attrRegistryMap[$attrName] = $attrType;
-    }
-
-    /**
-     * 获取属性对象
-     *
-     * @param string $attrName
-     *
-     * @return ClassAttr|DataAttr|RawAttr|StandardAttr|StyleAttr|null
-     */
-    public function getAttr(string $attrName): ClassAttr|DataAttr|RawAttr|StandardAttr|StyleAttr|null
-    {
-        if (!isset($this->attrRegistry->$attrName)) {
-            $this->addAttr($attrName, static::$attrRegistryMap[$attrName]);
-        }
-
-        return $this->attrRegistry->$attrName;
-    }
-
-    /**
-     * 添加一个属性对象
-     *
-     * @param string $attrName
-     * @param string $attrType
-     *
-     * @return $this
-     */
-    public function addAttr(string $attrName, string $attrType): static
-    {
-        $this->attrRegistry->$attrName = $attrType;
-
-        return $this;
-    }
-
-
-    /**
-     * 获取结构化属性管理器
-     *
-     * @return AttrRegistry
-     */
-    public function getAttrRegistry(): AttrRegistry
-    {
-        return $this->attrRegistry;
     }
 
 
@@ -141,10 +48,28 @@ class RawTag extends DomBlock
     protected function beforeRender(): void
     {
         //生成这两个对象，否则不会生成属性
-        $this->getAttr('class');
-        $this->getAttr('style');
 
-        $attrString = (string)$this->attrRegistry.' {:__ATTRS__:}';
+        $this->getAttr('class')->setBeforeGetValueCallback(function (&$str) {
+            if (!$str) {
+                $str = '"{:__CLASS__:}"';
+            } else {
+                $str = preg_replace('/(")$/im', '{:__CLASS__:}$1', $str);
+            }
+        });
+
+        $this->getAttr('style')->setBeforeGetValueCallback(function (&$str) {
+            if (!$str) {
+                $str = '"{:__STYLE__:}"';
+            } else {
+                $str = preg_replace('/(")$/im', '{:__STYLE__:}$1', $str);
+            }
+        });
+
+        $this->attrRegistry->setBeforeGetValueCallback(function (&$str) {
+            $str .= ' {:__ATTRS__:}';
+        });
+
+        $attrString = (string)$this->attrRegistry;
 
         $node = DomBlock::ins($attrString);
 
