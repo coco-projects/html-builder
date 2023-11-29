@@ -16,7 +16,7 @@
 
     DomBlock::$var['name'] = '哈哈哈哈哈';
 
-    $dom1 = Document::ins()->process(function(\Coco\htmlBuilder\dom\Document $this_, array &$inner) {
+    $dom1 = Document::ins()->inner(function(\Coco\htmlBuilder\dom\Document $this_, array &$inner) {
         $this_->appendSubsection('TITLE', DomBlock::$var['name']);
 
         $this_->appendSubsection('INNER_CONTENTS', '(hello111)');

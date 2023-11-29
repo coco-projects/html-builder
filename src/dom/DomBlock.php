@@ -324,7 +324,7 @@ class DomBlock extends TreeNode
      *
      * @return $this
      */
-    public function process(callable $callback): static
+    public function inner(callable $callback): static
     {
         $contents = [];
 

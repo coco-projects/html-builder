@@ -11,7 +11,7 @@
     DomBlock::$var['title'] = 'layui demo';
     DomBlock::$isDebug      = false;
 
-    $html = Document::ins()->process(function(Document $this_, array &$inner) {
+    $html = Document::ins()->inner(function(Document $this_, array &$inner) {
 
         $this_->appendSubsection('TITLE', DomBlock::$var['title']);
 
@@ -58,63 +58,63 @@ AAA
         $inner[] = '<hr>';
         $inner[] = '<hr>';
 
-    })->process(function(Document $this_, array &$inner) {
+    })->inner(function(Document $this_, array &$inner) {
 
-        $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+        $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
             $this_->getAttr('class')->addAttrsArray([
                 "layui-container",
             ]);
 
-            $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+            $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                 $this_->getAttr('class')->addAttr('layui-row');
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->getAttr('class')->addAttr('layui-col-xs4');
                     $inner[] = 'column 1';
                 });
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->getAttr('class')->addAttr('layui-col-xs4');
                     $inner[] = 'column 2';
                 });
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->getAttr('class')->addAttr('layui-col-xs4');
                     $inner[] = 'column 3';
                 });
             });
 
-            $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+            $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                 $this_->getAttr('class')->addAttr('layui-row');
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->getAttr('class')->addAttr('layui-col-xs4')->addAttr('col-12');
 
-                    $inner[] = DoubleTag::ins('h1')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h1')->inner(function(DoubleTag $this_, array &$inner) {
                         $inner[] = 'hello h1';
                     });
 
-                    $inner[] = DoubleTag::ins('h2')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h2')->inner(function(DoubleTag $this_, array &$inner) {
                         $inner[] = ['hello h2'];
                     });
 
-                    $inner[] = DoubleTag::ins('h3')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h3')->inner(function(DoubleTag $this_, array &$inner) {
                         $inner[] = function() {
                             return 'hello h3';
                         };
                     });
 
-                    $inner[] = DoubleTag::ins('h4')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h4')->inner(function(DoubleTag $this_, array &$inner) {
                         $this_->setIsHidden(true);
 
                         $inner[] = 'hello h4';
                     });
 
-                    $inner[] = DoubleTag::ins('h5')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h5')->inner(function(DoubleTag $this_, array &$inner) {
                         $inner[] = 'hello h5';
                     });
 
-                    $inner[] = DoubleTag::ins('h6')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h6')->inner(function(DoubleTag $this_, array &$inner) {
 
                         $inner[] = 'hello h666';
                     });

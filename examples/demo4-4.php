@@ -12,7 +12,7 @@
 
     require '../vendor/autoload.php';
 
-    $dom1 = SingleTag::ins('hr')->process(function(SingleTag $this_, array &$inner) {
+    $dom1 = SingleTag::ins('hr')->inner(function(SingleTag $this_, array &$inner) {
         $this_->setIsHidden(!true);
 
         $this_->getAttr('class')->addAttrsArray([

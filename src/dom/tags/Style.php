@@ -12,7 +12,7 @@ class Style extends DoubleTag
     public function __construct(string|CSSCode $code = '')
     {
         parent::__construct('style');
-        $this->process(function (DoubleTag $this_, array &$inner) use (&$code) {
+        $this->inner(function (DoubleTag $this_, array &$inner) use (&$code) {
             $inner[] = $code;
         });
     }

@@ -33,7 +33,7 @@ composer require coco-project/html-builder
     DomBlock::$var['title'] = 'Bootstrap demo';
     DomBlock::$isDebug      = true;
 
-    $html = Document::ins()->process(function(Document $this_, array &$inner) {
+    $html = Document::ins()->inner(function(Document $this_, array &$inner) {
 
         $this_->appendSubsection('TITLE', DomBlock::$var['title']);
 
@@ -51,7 +51,7 @@ composer require coco-project/html-builder
                 "content" => "这是网页的描述",
             ]),
 
-            SingleTag::ins('meta')->process(function(SingleTag $this_, array &$inner) {
+            SingleTag::ins('meta')->inner(function(SingleTag $this_, array &$inner) {
                 $this_->getAttr('name')->setAttrKv('name', 'keywords');
                 $this_->getAttr('content')->setAttrKv('content', '关键词1, 关键词2, 关键词3');
             }),
@@ -59,7 +59,7 @@ composer require coco-project/html-builder
         ]);
 
         $this_->setSubsection('CSS_LIB', [
-            SingleTag::ins('link')->process(function(SingleTag $this_, array &$inner) {
+            SingleTag::ins('link')->inner(function(SingleTag $this_, array &$inner) {
                 $this_->getAttr('href')->setAttrKv('href', '//cdn.staticfile.org/layui/2.8.18/css/layui.css');
                 $this_->getAttr('rel')->setAttrKv('rel', 'stylesheet');
                 $this_->getAttr('crossorigin')->setAttrKv('crossorigin', 'anonymous');
@@ -67,7 +67,7 @@ composer require coco-project/html-builder
         ]);
 
         $this_->setSubsection('JS_LIB', [
-            DoubleTag::ins('script')->process(function(DoubleTag $this_, array &$inner) {
+            DoubleTag::ins('script')->inner(function(DoubleTag $this_, array &$inner) {
                 $this_->getAttr('src')->setAttrKv('src', '//unpkg.com/layui@2.8.18/dist/layui.js');
                 $this_->getAttr('crossorigin')->setAttrKv('crossorigin', 'anonymous');
             }),
@@ -91,25 +91,25 @@ AAA
 AAA
         );
 
-        $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+        $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
             $this_->getAttr('class')->addAttrsArray([
                 "layui-container",
             ]);
 
-            $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+            $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                 $this_->getAttr('class')->addAttr('layui-row');
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->getAttr('class')->addAttr('layui-col-xs4');
                     $inner[] = 'column 1';
                 });
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->getAttr('class')->addAttr('layui-col-xs4');
                     $inner[] = 'column 2';
                 });
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->getAttr('class')->addAttr('layui-col-xs4');
                     $this_->getAttr('selected')->setAttrsString('selected');
                     $this_->getAttr('disabled')->setAttrsString('disabled');
@@ -120,35 +120,35 @@ AAA
                 });
             });
 
-            $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+            $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                 $this_->getAttr('class')->addAttr('layui-row');
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->getAttr('class')->addAttr('layui-col-xs4')->addAttr('col-12');
 
-                    $inner[] = DoubleTag::ins('h1')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h1')->inner(function(DoubleTag $this_, array &$inner) {
                         $inner[] = 'hello h1';
                     });
 
-                    $inner[] = DoubleTag::ins('h2')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h2')->inner(function(DoubleTag $this_, array &$inner) {
                         $inner[] = ['hello h2'];
                     });
 
-                    $inner[] = DoubleTag::ins('h3')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h3')->inner(function(DoubleTag $this_, array &$inner) {
                         $inner[] = function() {
                             return 'hello h3';
                         };
                     });
 
-                    $inner[] = DoubleTag::ins('h4')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h4')->inner(function(DoubleTag $this_, array &$inner) {
                         $inner[] = 'hello h4';
                     });
 
-                    $inner[] = DoubleTag::ins('h5')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h5')->inner(function(DoubleTag $this_, array &$inner) {
                         $inner[] = 'hello h5';
                     });
 
-                    $inner[] = DoubleTag::ins('h6')->process(function(DoubleTag $this_, array &$inner) {
+                    $inner[] = DoubleTag::ins('h6')->inner(function(DoubleTag $this_, array &$inner) {
                         $this_->setIsHidden(true);
 
                         $inner[] = 'hello h666';
@@ -156,7 +156,7 @@ AAA
 
                 });
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->setIsHidden(!true);
 
                     $this_->getAttr('class')->addAttrsArray([

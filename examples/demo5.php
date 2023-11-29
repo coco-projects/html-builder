@@ -16,13 +16,13 @@
 
     DomBlock::$var['name'] = '哈哈哈哈哈';
 
-    $dom1 = Document::ins()->process(function(\Coco\htmlBuilder\dom\Document $this_, array &$inner) {
+    $dom1 = Document::ins()->inner(function(\Coco\htmlBuilder\dom\Document $this_, array &$inner) {
         $this_->appendSubsection('TITLE', DomBlock::$var['name']);
 
-        $d = DoubleTag::ins('div')->process(function(\Coco\htmlBuilder\dom\DoubleTag $this_, array &$inner) {
+        $d = DoubleTag::ins('div')->inner(function(\Coco\htmlBuilder\dom\DoubleTag $this_, array &$inner) {
 
             $this_->appendRootSection('CSS_LIB', [
-                SingleTag::ins('link')->process(function(SingleTag $this_, array &$inner) {
+                SingleTag::ins('link')->inner(function(SingleTag $this_, array &$inner) {
                     $this_->getAttr('href')->setAttrKv('href', 'https://baidu.com/a.css');
                     $this_->getAttr('rel')->setAttrKv('rel', 'stylesheet');
                     $this_->getAttr('crossorigin')->setAttrKv('crossorigin', 'anonymous');

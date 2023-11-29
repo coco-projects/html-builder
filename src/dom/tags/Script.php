@@ -15,12 +15,12 @@ class Script extends DoubleTag
         parent::__construct('script');
 
         if ($isRemoteScript) {
-            $this->process(function (DoubleTag $this_, array &$inner) use (&$codeOrLink) {
+            $this->inner(function (DoubleTag $this_, array &$inner) use (&$codeOrLink) {
                 $this_->getAttr('src')->setAttrKv('src', $codeOrLink);
                 $this_->getAttr('crossorigin')->setAttrKv('crossorigin', 'anonymous');
             });
         } else {
-            $this->process(function (DoubleTag $this_, array &$inner) use (&$codeOrLink) {
+            $this->inner(function (DoubleTag $this_, array &$inner) use (&$codeOrLink) {
                 $inner[] = $codeOrLink;
             });
         }

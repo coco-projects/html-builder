@@ -11,7 +11,7 @@
 
     require '../vendor/autoload.php';
 
-    $dom1 = DoubleTag::ins('div')->process(function(\Coco\htmlBuilder\dom\DoubleTag $this_, array &$inner) {
+    $dom1 = DoubleTag::ins('div')->inner(function(\Coco\htmlBuilder\dom\DoubleTag $this_, array &$inner) {
 
         $inner[] = [
             'hello',

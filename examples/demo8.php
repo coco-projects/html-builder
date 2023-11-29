@@ -11,7 +11,7 @@
     DomBlock::$var['title'] = 'layui demo';
     DomBlock::$isDebug      = !false;
 
-    $html = Document::ins()->process(function(Document $this_, array &$inner) {
+    $html = Document::ins()->inner(function(Document $this_, array &$inner) {
 
         $this_->appendSubsection('TITLE', DomBlock::$var['title']);
 
@@ -35,28 +35,28 @@
         $inner[] = '<hr>';
         $inner[] = '<hr>';
 
-    })->process(function(Document $this_, array &$inner) {
+    })->inner(function(Document $this_, array &$inner) {
 
         $inner[] = DomBlock::$var['test_div'] = DoubleTag::ins('div');
-        DomBlock::$var['test_div']->process(function(DoubleTag $this_, array &$inner) {
+        DomBlock::$var['test_div']->inner(function(DoubleTag $this_, array &$inner) {
             $this_->getAttr('class')->addAttrsArray([
                 "layui-container",
             ]);
 
-            $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+            $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                 $this_->getAttr('class')->addAttr('layui-row');
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->getAttr('class')->addAttr('layui-col-xs4');
                     $inner[] = 'column 1';
                 });
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->getAttr('class')->addAttr('layui-col-xs4');
                     $inner[] = 'column 2';
                 });
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
 
                     $this_->appendDesignatedSection(DomBlock::$var['test_div'], 'ATTRS', ' data-pid="123"');
 
@@ -65,10 +65,10 @@
                 });
             });
 
-            $inner[] = DoubleTag::ins('div')->process(callback: function(DoubleTag $this_, array &$inner) {
+            $inner[] = DoubleTag::ins('div')->inner(callback: function(DoubleTag $this_, array &$inner) {
                 $this_->getAttr('class')->addAttr('layui-row');
 
-                $inner[] = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+                $inner[] = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
                     $this_->getAttr('class')->addAttr('layui-col-xs12');
 
                     $this_->getAttr('style')->importKv([
@@ -84,12 +84,12 @@
 
                     $this_->getAttr('selected')->setAttrsString('unselected');
 
-                    $inner[] = ComponentTest1::ins()->process(function(ComponentTest1 $this_, array &$inner) {
+                    $inner[] = ComponentTest1::ins()->inner(function(ComponentTest1 $this_, array &$inner) {
                         $this_->setSubsection('btn_color', 'orange')->setSubsection('btn_text', '一个按钮')
                             ->setSubsection('btn_msg', '弹出msg')->getScriptSection()->setSubsection('btn_icon', 4);
                     });
 
-                    $inner[] = ComponentTest1::ins()->process(function(ComponentTest1 $this_, array &$inner) {
+                    $inner[] = ComponentTest1::ins()->inner(function(ComponentTest1 $this_, array &$inner) {
                         $this_->setSubsections([
                             'btn_color' => 'blue',
                             'btn_text'  => '一个按钮22',
@@ -101,7 +101,7 @@
                         $this_->getScriptSection()->setSubsection('btn_icon', 5);
                     });
 
-                    $inner[] = ComponentTest1::ins()->process(function(ComponentTest1 $this_, array &$inner) {
+                    $inner[] = ComponentTest1::ins()->inner(function(ComponentTest1 $this_, array &$inner) {
 
                         $this_->baseCustomAttrsRegistry->appendClass('layui-show');
                         $this_->baseCustomAttrsRegistry->appendClassArr([

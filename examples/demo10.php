@@ -4,7 +4,7 @@
 
     require '../vendor/autoload.php';
 
-    $dom1 = DoubleTag::ins('div')->process(function(DoubleTag $this_, array &$inner) {
+    $dom1 = DoubleTag::ins('div')->inner(function(DoubleTag $this_, array &$inner) {
 
         $this_->getAttr('class')->addAttr('layui-disabled');
         $this_->getAttr('class')->addAttr('layui-ok');
