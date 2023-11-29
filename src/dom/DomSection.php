@@ -20,20 +20,10 @@ class DomSection extends DomBlock
     public function __construct(mixed $templateString = '')
     {
         parent::__construct($templateString);
-        $this->baseCustomAttrsRegistry = CustomAttrs::ins();
+        $this->attrsRegistry = CustomAttrs::ins();
         $this->makeScriptSection();
         $this->makeStyleSection();
         $this->init();
-    }
-
-    /**
-     * 获取自定义属性管理器
-     *
-     * @return CustomAttrs
-     */
-    public function getCustomAttrsRegistry(): CustomAttrs
-    {
-        return $this->baseCustomAttrsRegistry;
     }
 
     protected function initAfterSectionRender(): void
@@ -44,9 +34,9 @@ class DomSection extends DomBlock
     protected function beforeRender(): void
     {
         $this->setSubsections([
-            "__CLASS__" => $this->getCustomAttrsRegistry()->evalClass(),
-            "__STYLE__" => $this->getCustomAttrsRegistry()->evalStyle(),
-            "__ATTRS__" => $this->getCustomAttrsRegistry()->evalAttrs(),
+            "__CLASS__" => $this->attrsRegistry->evalClass(),
+            "__STYLE__" => $this->attrsRegistry->evalStyle(),
+            "__ATTRS__" => $this->attrsRegistry->evalAttrs(),
         ]);
 
         parent::beforeRender();

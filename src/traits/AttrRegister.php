@@ -21,7 +21,7 @@
 
 trait AttrRegister
 {
-    public ?AttrRegistry $attrRegistry = null;
+    protected ?AttrRegistry $attrRegistry = null;
 
     /**
      * 常用属性和类型映射

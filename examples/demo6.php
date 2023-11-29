@@ -159,22 +159,22 @@ AAA
 
                     $this_->getAttr('selected')->setAttrsString('selected');
 
-                    $this_->baseCustomAttrsRegistry->appendClass('layui-show');
-                    $this_->baseCustomAttrsRegistry->appendClassArr([
+                    $this_->attrsRegistry->appendClass('layui-show');
+                    $this_->attrsRegistry->appendClassArr([
                         'layui-all',
                     ]);
 
-                    $this_->getCustomAttrsRegistry()->appendStyleKv('color', '#0f0');
-                    $this_->getCustomAttrsRegistry()->appendStyleKvArr([
+                    $this_->attrsRegistry->appendStyleKv('color', '#0f0');
+                    $this_->attrsRegistry->appendStyleKvArr([
                         "background" => "#ccc",
                     ]);
 
-                    $this_->getCustomAttrsRegistry()->appendAttrRaw('layer-enable');
-                    $this_->getCustomAttrsRegistry()->appendAttrRawArr([
+                    $this_->attrsRegistry->appendAttrRaw('layer-enable');
+                    $this_->attrsRegistry->appendAttrRawArr([
                         'layer-border-red',
                     ]);
-                    $this_->getCustomAttrsRegistry()->appendAttrKv('tid', 250);
-                    $this_->getCustomAttrsRegistry()->appendAttrKvArr([
+                    $this_->attrsRegistry->appendAttrKv('tid', 250);
+                    $this_->attrsRegistry->appendAttrKvArr([
                         "margin" => 20,
                     ]);
 

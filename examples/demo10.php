@@ -11,29 +11,29 @@
         $this_->getAttr('style')->setAttrKv('background', '#f0f')->clearValue();
 
 
-        $this_->getCustomAttrsRegistry()->appendClass("layui-container");
-        $this_->getCustomAttrsRegistry()->appendStyleKv("width", '200px');
+        $this_->attrsRegistry->appendClass("layui-container");
+        $this_->attrsRegistry->appendStyleKv("width", '200px');
 
-        $this_->getCustomAttrsRegistry()->appendAttrRawArr([
+        $this_->attrsRegistry->appendAttrRawArr([
             "lay-selected",
             "lay-disabled",
         ]);
 
-        $this_->getCustomAttrsRegistry()->appendAttrKvArr([
+        $this_->attrsRegistry->appendAttrKvArr([
             "a" => "aa",
             "b" => "bb",
         ]);
 
-        $this_->getCustomAttrsRegistry()->removeAttr('lay-selected');
-        $this_->getCustomAttrsRegistry()->removeAttr('a');
+        $this_->attrsRegistry->removeAttr('lay-selected');
+        $this_->attrsRegistry->removeAttr('a');
 
-        $this_->getCustomAttrsRegistry()->clearAttrs();
-        $this_->getCustomAttrsRegistry()->clearClass();
-        $this_->getCustomAttrsRegistry()->clearStyle();
+        $this_->attrsRegistry->clearAttrs();
+        $this_->attrsRegistry->clearClass();
+        $this_->attrsRegistry->clearStyle();
 
-        $this_->getCustomAttrsRegistry()->appendClass("layui-container1111");
+        $this_->attrsRegistry->appendClass("layui-container1111");
 
-        $this_->getCustomAttrsRegistry()->appendAttrKvArr([
+        $this_->attrsRegistry->appendAttrKvArr([
             "c" => "cc",
         ]);
 
