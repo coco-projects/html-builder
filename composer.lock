@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "coco-project/magic-access",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/coco-projects/magic-access.git",
-                "reference": "f068b5585dc1bd5f8418982ee6385b87e2e68297"
+                "reference": "7ccf9c2b72ce2c6fad21afba7276f1c5dff8963a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/coco-projects/magic-access/zipball/f068b5585dc1bd5f8418982ee6385b87e2e68297",
-                "reference": "f068b5585dc1bd5f8418982ee6385b87e2e68297",
+                "url": "https://api.github.com/repos/coco-projects/magic-access/zipball/7ccf9c2b72ce2c6fad21afba7276f1c5dff8963a",
+                "reference": "7ccf9c2b72ce2c6fad21afba7276f1c5dff8963a",
                 "shasum": ""
             },
             "require": {
@@ -42,9 +42,9 @@
             "description": "\\ArrayAccess, \\Countable, \\IteratorAggregate and __set,__get implementations",
             "support": {
                 "issues": "https://github.com/coco-projects/magic-access/issues",
-                "source": "https://github.com/coco-projects/magic-access/tree/v1.0.0"
+                "source": "https://github.com/coco-projects/magic-access/tree/v1.0.1"
             },
-            "time": "2023-11-07T05:56:34+00:00"
+            "time": "2023-11-29T05:42:57+00:00"
         },
         {
             "name": "coco-project/tree",
@@ -813,12 +813,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3a5328b86920b12e30b6d96d95eec9fa4c805af7"
+                "reference": "862d87eaf8eccfaf3cbb2a8a4837d2e025af7d92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3a5328b86920b12e30b6d96d95eec9fa4c805af7",
-                "reference": "3a5328b86920b12e30b6d96d95eec9fa4c805af7",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/862d87eaf8eccfaf3cbb2a8a4837d2e025af7d92",
+                "reference": "862d87eaf8eccfaf3cbb2a8a4837d2e025af7d92",
                 "shasum": ""
             },
             "require": {
@@ -868,7 +868,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-22T08:02:39+00:00"
+            "time": "2023-11-29T19:38:27+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1195,12 +1195,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "5e86f7ab385820efd1cdbc0f2d72ee3e9fb2a857"
+                "reference": "70004109dbe3f1ee5fc29551240d04471a3cdd09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/5e86f7ab385820efd1cdbc0f2d72ee3e9fb2a857",
-                "reference": "5e86f7ab385820efd1cdbc0f2d72ee3e9fb2a857",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/70004109dbe3f1ee5fc29551240d04471a3cdd09",
+                "reference": "70004109dbe3f1ee5fc29551240d04471a3cdd09",
                 "shasum": ""
             },
             "require": {
@@ -1290,7 +1290,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-22T11:52:45+00:00"
+            "time": "2023-11-29T12:09:43+00:00"
         },
         {
             "name": "sebastian/cli-parser",
