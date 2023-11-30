@@ -265,6 +265,8 @@ class DomBlock extends TreeNode
             return '';
         }
 
+        $this->beforeRender();
+
         if (is_string($this['template'])) {
             foreach ($this['sectionsWithoutEval'] as $sectionName => $stringArray) {
                 foreach ($stringArray as $string) {
@@ -284,8 +286,6 @@ class DomBlock extends TreeNode
         }
 
         $template = $this['template'];
-
-        $this->beforeRender();
 
         $toReplace = [];
 

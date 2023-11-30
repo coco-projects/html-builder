@@ -24,6 +24,8 @@
         $this_->appendSubsectionWithoutEval('INNER_CONTENTS', 'aaa{:hello1:}bbb');
         $this_->prependSubsectionWithoutEval('INNER_CONTENTS', 'ccc{:hello2:}ddd');
 
+//        $this_->setSubsectionWithoutEval('INNER_CONTENTS', 'eee{:hello2:}fff');
+
         $this_->appendSubsection('hello1', '<hellohello1>');
         $this_->appendSubsection('hello2', '<hellohello2>');
 
