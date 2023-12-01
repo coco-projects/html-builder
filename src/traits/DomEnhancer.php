@@ -45,7 +45,7 @@ trait DomEnhancer
         $uniqueLabel = md5($link);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendRootSection('JS_HEAD', Script::ins($link));
+            $this->appendRootSection('JS_HEAD', Script::ins()->link($link));
         }
 
         return $this;
@@ -64,7 +64,7 @@ trait DomEnhancer
         $uniqueLabel = md5($link);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendRootSection('JS_LIB', Script::ins($link));
+            $this->appendRootSection('JS_LIB', Script::ins()->link($link));
         }
 
         return $this;
@@ -84,7 +84,7 @@ trait DomEnhancer
         $uniqueLabel = md5($codeWithoutScriptTag);
         if (!$isUnique || !isset(self::$valueMap[$uniqueLabel])) {
             self::$valueMap[$uniqueLabel] = 1;
-            $this->appendRootSection('JS_CUSTOM', Script::ins($codeWithoutScriptTag, false));
+            $this->appendRootSection('JS_CUSTOM', Script::ins()->rawCode($codeWithoutScriptTag));
         }
 
         return $this;

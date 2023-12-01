@@ -10,22 +10,27 @@
 
 class Script extends DoubleTag
 {
-    public function __construct(string|JSCode $codeOrLink = '', bool $isRemoteScript = true)
+    public function __construct()
     {
         parent::__construct('script');
-
-        if ($isRemoteScript) {
-            $this->inner(function (DoubleTag $this_, array &$inner) use (&$codeOrLink) {
-                $this_->getAttr('src')->setAttrKv('src', $codeOrLink);
-                $this_->getAttr('crossorigin')->setAttrKv('crossorigin', 'anonymous');
-            });
-        } else {
-            $this->inner(function (DoubleTag $this_, array &$inner) use (&$codeOrLink) {
-                $inner[] = $codeOrLink;
-            });
-        }
     }
 
+    public function link(string $link):static
+    {
+        $this->inner(function (DoubleTag $this_, array &$inner) use (&$link) {
+            $this_->getAttr('src')->setAttrKv('src', $link);
+            $this_->getAttr('crossorigin')->setAttrKv('crossorigin', 'anonymous');
+        });
+
+        return $this;
+    }
+
+    public function rawCode(string|JSCode $code):static
+    {
+        $this->setInnerContents($code);
+
+        return $this;
+    }
 
 
     /**

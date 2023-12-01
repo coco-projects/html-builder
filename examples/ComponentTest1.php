@@ -98,6 +98,7 @@ CONTENTS;
             //组件被重复调用，此处代码会多次渲染，可以在dom中这样调用动态设置值
             //$this_->getScriptSection()->setSubsection('btn_icon', 5);
             $this->jsCustomDomSection(Script::ins($this->scriptSection, false));
+            $this->jsCustomDomSection(Script::ins()->rawCode($this->scriptSection));
 
             //组件被重复调用，此处代码只会渲染一次
             //无法在dom中动态设置值
