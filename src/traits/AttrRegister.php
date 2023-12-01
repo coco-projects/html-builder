@@ -57,6 +57,7 @@ trait AttrRegister
         "property"    => StandardAttr::class,
         "selected"    => RawAttr::class,
         "disabled"    => RawAttr::class,
+        "checked"     => RawAttr::class,
         "class"       => ClassAttr::class,
         "style"       => StyleAttr::class,
         "id"          => StandardAttr::class,
