@@ -82,29 +82,29 @@ class DomBlock extends TreeNode
 
     /**
      * @param string $sectionName
-     * @param string $string
+     * @param mixed $string
      *
      * @return $this
      */
-    public function setSubsectionWithoutEval(string $sectionName, string $string): static
+    public function setSubsectionWithoutEval(string $sectionName, mixed $string): static
     {
         $this['sectionsWithoutEval'][$sectionName]   = [];
-        $this['sectionsWithoutEval'][$sectionName][] = $string;
+        $this['sectionsWithoutEval'][$sectionName][] = static::evalSectionValue($string);
 
         return $this;
     }
 
     /**
      * @param string $sectionName
-     * @param string $string
+     * @param mixed $string
      *
      * @return $this
      */
-    public function appendSubsectionWithoutEval(string $sectionName, string $string): static
+    public function appendSubsectionWithoutEval(string $sectionName, mixed $string): static
     {
         $this['sectionsWithoutEval'][$sectionName][] = implode('', [
             static::makeSectionTagName($sectionName),
-            $string,
+            static::evalSectionValue($string),
         ]);
 
         return $this;
@@ -112,14 +112,14 @@ class DomBlock extends TreeNode
 
     /**
      * @param string $sectionName
-     * @param string $string
+     * @param mixed $string
      *
      * @return $this
      */
-    public function prependSubsectionWithoutEval(string $sectionName, string $string): static
+    public function prependSubsectionWithoutEval(string $sectionName, mixed $string): static
     {
         $this['sectionsWithoutEval'][$sectionName][] = implode('', [
-            $string,
+            static::evalSectionValue($string),
             static::makeSectionTagName($sectionName),
         ]);
 
