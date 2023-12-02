@@ -40,6 +40,7 @@ class Meta extends SingleTag
 
         return $this;
     }
+
     protected function initAfterSectionRender(): void
     {
         parent::initAfterSectionRender();
@@ -53,7 +54,7 @@ class Meta extends SingleTag
      *
      * @return void
      */
-    public function afterRender(string &$sectionContents): void
+    protected function afterRender(string &$sectionContents): void
     {
         parent::afterRender($sectionContents);
     }
@@ -65,7 +66,7 @@ class Meta extends SingleTag
      *
      * @return void
      */
-    public function beforeRender(): void
+    protected function beforeRender(): void
     {
         $this->getAttr('raw')->setAttrsString(implode(' ', $this->str));
         parent::beforeRender();

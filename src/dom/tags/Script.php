@@ -52,7 +52,7 @@ class Script extends DoubleTag
      *
      * @return void
      */
-    public function afterRender(string &$sectionContents): void
+    protected function afterRender(string &$sectionContents): void
     {
         if (!$this::$isDebug) {
             $minifier = new JS();
@@ -69,7 +69,7 @@ class Script extends DoubleTag
      *
      * @return void
      */
-    public function beforeRender(): void
+    protected function beforeRender(): void
     {
         parent::beforeRender();
     }

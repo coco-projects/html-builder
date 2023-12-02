@@ -37,7 +37,7 @@ class Style extends DoubleTag
      * @return void
      */
 
-    public function afterRender(string &$sectionContents): void
+    protected function afterRender(string &$sectionContents): void
     {
         if (!$this::$isDebug) {
             $minifier = new CSS();
@@ -54,7 +54,7 @@ class Style extends DoubleTag
      *
      * @return void
      */
-    public function beforeRender(): void
+    protected function beforeRender(): void
     {
         parent::beforeRender();
     }
