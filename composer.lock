@@ -48,16 +48,16 @@
         },
         {
             "name": "coco-project/tree",
-            "version": "v1.0.12",
+            "version": "v1.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/coco-projects/tree.git",
-                "reference": "b1c81833e0e72c051d7bae88722f6169cfb8f24b"
+                "reference": "0c83bae62dbb22352f7e1b0826d878ddb91e451d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/coco-projects/tree/zipball/b1c81833e0e72c051d7bae88722f6169cfb8f24b",
-                "reference": "b1c81833e0e72c051d7bae88722f6169cfb8f24b",
+                "url": "https://api.github.com/repos/coco-projects/tree/zipball/0c83bae62dbb22352f7e1b0826d878ddb91e451d",
+                "reference": "0c83bae62dbb22352f7e1b0826d878ddb91e451d",
                 "shasum": ""
             },
             "require": {
@@ -84,9 +84,9 @@
             "description": "Tree structure management tool that allows easy operations such as adding, modifying, deleting, searching, serializing, and deserializing nodes in a hierarchical structure.",
             "support": {
                 "issues": "https://github.com/coco-projects/tree/issues",
-                "source": "https://github.com/coco-projects/tree/tree/v1.0.12"
+                "source": "https://github.com/coco-projects/tree/tree/v1.0.13"
             },
-            "time": "2023-11-22T14:42:30+00:00"
+            "time": "2023-12-02T07:07:38+00:00"
         },
         {
             "name": "matthiasmullie/minify",
@@ -813,12 +813,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "862d87eaf8eccfaf3cbb2a8a4837d2e025af7d92"
+                "reference": "79aa37174956faafcfddf7432d4ec3d61752be0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/862d87eaf8eccfaf3cbb2a8a4837d2e025af7d92",
-                "reference": "862d87eaf8eccfaf3cbb2a8a4837d2e025af7d92",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/79aa37174956faafcfddf7432d4ec3d61752be0b",
+                "reference": "79aa37174956faafcfddf7432d4ec3d61752be0b",
                 "shasum": ""
             },
             "require": {
@@ -868,7 +868,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-29T19:38:27+00:00"
+            "time": "2023-12-01T15:01:32+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1195,12 +1195,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "43653e6ad7adc22e7b667dd561bf8fcb74c10cf0"
+                "reference": "05017b80304e0eb3f31d90194a563fd53a6021f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/43653e6ad7adc22e7b667dd561bf8fcb74c10cf0",
-                "reference": "43653e6ad7adc22e7b667dd561bf8fcb74c10cf0",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/05017b80304e0eb3f31d90194a563fd53a6021f1",
+                "reference": "05017b80304e0eb3f31d90194a563fd53a6021f1",
                 "shasum": ""
             },
             "require": {
@@ -1274,7 +1274,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.14"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6"
             },
             "funding": [
                 {
@@ -1290,7 +1290,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-01T06:10:48+00:00"
+            "time": "2023-12-01T16:55:19+00:00"
         },
         {
             "name": "sebastian/cli-parser",
