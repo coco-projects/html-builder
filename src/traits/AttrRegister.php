@@ -10,14 +10,6 @@
     use Coco\htmlBuilder\attrs\RawAttr;
     use Coco\htmlBuilder\attrs\StandardAttr;
     use Coco\htmlBuilder\attrs\StyleAttr;
-    use Coco\htmlBuilder\dom\DomBlock;
-    use Coco\htmlBuilder\dom\DomSection;
-    use Coco\htmlBuilder\dom\tags\CSSCode;
-    use Coco\htmlBuilder\dom\tags\JSCode;
-    use Coco\htmlBuilder\dom\tags\Link;
-    use Coco\htmlBuilder\dom\tags\Meta;
-    use Coco\htmlBuilder\dom\tags\Script;
-    use Coco\htmlBuilder\dom\tags\Style;
 
 trait AttrRegister
 {

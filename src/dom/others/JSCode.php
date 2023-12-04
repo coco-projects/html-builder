@@ -2,7 +2,7 @@
 
     declare(strict_types = 1);
 
-    namespace Coco\htmlBuilder\dom\tags;
+    namespace Coco\htmlBuilder\dom\others;
 
     use Coco\htmlBuilder\dom\DomSection;
     use MatthiasMullie\Minify\JS;

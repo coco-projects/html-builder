@@ -5,8 +5,8 @@
     namespace Coco\htmlBuilder\dom\tags;
 
     use Coco\htmlBuilder\dom\DoubleTag;
-    use MatthiasMullie\Minify\CSS;
     use MatthiasMullie\Minify\JS;
+    use Coco\htmlBuilder\dom\others\JSCode;
 
 class Script extends DoubleTag
 {

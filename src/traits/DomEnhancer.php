@@ -6,8 +6,8 @@
 
     use Coco\htmlBuilder\dom\DomBlock;
     use Coco\htmlBuilder\dom\DomSection;
-    use Coco\htmlBuilder\dom\tags\CSSCode;
-    use Coco\htmlBuilder\dom\tags\JSCode;
+    use Coco\htmlBuilder\dom\others\CSSCode;
+    use Coco\htmlBuilder\dom\others\JSCode;
     use Coco\htmlBuilder\dom\tags\Link;
     use Coco\htmlBuilder\dom\tags\Meta;
     use Coco\htmlBuilder\dom\tags\Script;

@@ -4,13 +4,7 @@
 
     namespace Coco\htmlBuilder\dom;
 
-    use Coco\htmlBuilder\attrs\AttrRegistry;
-    use Coco\htmlBuilder\attrs\ClassAttr;
     use Coco\htmlBuilder\attrs\CustomAttrs;
-    use Coco\htmlBuilder\attrs\DataAttr;
-    use Coco\htmlBuilder\attrs\RawAttr;
-    use Coco\htmlBuilder\attrs\StandardAttr;
-    use Coco\htmlBuilder\attrs\StyleAttr;
     use Coco\htmlBuilder\traits\AttrRegister;
     use Coco\htmlBuilder\traits\DomEnhancer;
 

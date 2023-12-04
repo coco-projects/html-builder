@@ -5,8 +5,8 @@
     namespace Coco\examples;
 
     use Coco\htmlBuilder\dom\DomSection;
-    use Coco\htmlBuilder\dom\tags\CSSCode;
-    use Coco\htmlBuilder\dom\tags\JSCode;
+    use Coco\htmlBuilder\dom\others\CSSCode;
+    use Coco\htmlBuilder\dom\others\JSCode;
     use Coco\htmlBuilder\dom\tags\Script;
     use Coco\htmlBuilder\dom\tags\Style;
 

@@ -5,12 +5,6 @@
     namespace Coco\htmlBuilder\dom;
 
     use Coco\htmlBuilder\attrs\CustomAttrs;
-    use Coco\htmlBuilder\dom\tags\CSSCode;
-    use Coco\htmlBuilder\dom\tags\JSCode;
-    use Coco\htmlBuilder\dom\tags\Link;
-    use Coco\htmlBuilder\dom\tags\Meta;
-    use Coco\htmlBuilder\dom\tags\Script;
-    use Coco\htmlBuilder\dom\tags\Style;
     use Coco\htmlBuilder\traits\DomEnhancer;
 
 class DomSection extends DomBlock
