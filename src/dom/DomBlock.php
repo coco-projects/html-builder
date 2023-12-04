@@ -80,6 +80,20 @@ class DomBlock extends TreeNode
         $this->initDefault();
     }
 
+    public function appendToNode(mixed $string): static
+    {
+        $this->appendSubsectionWithoutEval('toAppend', $string);
+
+        return $this;
+    }
+
+    public function prependToNode(mixed $string): static
+    {
+        $this->prependSubsectionWithoutEval('toPrepend', $string);
+
+        return $this;
+    }
+
     /**
      * @param string $sectionName
      * @param mixed $string
@@ -268,6 +282,12 @@ class DomBlock extends TreeNode
         $this->beforeRender();
 
         if (is_string($this['template'])) {
+            $this['template'] = implode('', [
+                '{:toPrepend:}',
+                $this['template'],
+                '{:toAppend:}',
+            ]);
+
             foreach ($this['sectionsWithoutEval'] as $sectionName => $stringArray) {
                 $stringArray = array_reverse($stringArray);
                 foreach ($stringArray as $string) {
@@ -286,6 +306,7 @@ class DomBlock extends TreeNode
             }
         }
 
+
         $template = $this['template'];
 
         $toReplace = [];
@@ -295,6 +316,10 @@ class DomBlock extends TreeNode
         }
 
         $contents = strtr($template, $toReplace);
+
+
+        foreach ($this['appendToNode'] as $k => $v) {
+        }
 
         $this->afterRender($contents);
 

@@ -35,6 +35,14 @@
         $this_->appendSubsection('hello1', '<hello11111>');
         $this_->appendSubsection('hello2', '<hello22222>');
 
+        $this_->prependToNode('1');
+        $this_->prependToNode('2');
+        $this_->prependToNode('3');
+
+
+        $this_->appendToNode('a');
+        $this_->appendToNode('b');
+        $this_->appendToNode('c');
     });
 
     print_r($dom1->render());
