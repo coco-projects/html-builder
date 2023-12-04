@@ -269,6 +269,7 @@ class DomBlock extends TreeNode
 
         if (is_string($this['template'])) {
             foreach ($this['sectionsWithoutEval'] as $sectionName => $stringArray) {
+                $stringArray = array_reverse($stringArray);
                 foreach ($stringArray as $string) {
                     $this['template'] = strtr($this['template'], [
                         static::makeSectionTagName($sectionName) => $string,

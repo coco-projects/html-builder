@@ -20,14 +20,20 @@
         $this_->appendSubsection('TITLE', DomBlock::$var['name']);
 
         $this_->appendSubsection('INNER_CONTENTS', '(hello111)');
+        $this_->appendSubsection('INNER_CONTENTS', '({:hello1000:})');
 
-        $this_->appendSubsectionWithoutEval('INNER_CONTENTS', 'aaa{:hello1:}bbb');
-        $this_->prependSubsectionWithoutEval('INNER_CONTENTS', 'ccc{:hello2:}ddd');
+        $t = DoubleTag::ins('div');
 
-//        $this_->setSubsectionWithoutEval('INNER_CONTENTS', 'eee{:hello2:}fff');
+        $this_->appendSubsectionWithoutEval('INNER_CONTENTS', $t->setInnerContents('div1'));
+        $this_->appendSubsectionWithoutEval('INNER_CONTENTS', '(aaa{:hello1:}bbb)');
+        $this_->appendSubsectionWithoutEval('INNER_CONTENTS', '(ccc{:hello1:}ddd)');
 
-        $this_->appendSubsection('hello1', '<hellohello1>');
-        $this_->appendSubsection('hello2', '<hellohello2>');
+        $this_->prependSubsectionWithoutEval('INNER_CONTENTS', '(eee{:hello2:}fff)');
+
+//        $this_->setSubsectionWithoutEval('INNER_CONTENTS', '（ggg{:hello2:}hhh）');
+
+        $this_->appendSubsection('hello1', '<hello11111>');
+        $this_->appendSubsection('hello2', '<hello22222>');
 
     });
 
