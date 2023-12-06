@@ -80,6 +80,14 @@ class DomBlock extends TreeNode
         $this->initDefault();
     }
 
+    /**
+     * @return DomBlock|null
+     */
+    public static function getRootNode(): ?DomBlock
+    {
+        return self::$rootNode;
+    }
+
     public function appendToNode(mixed $string): static
     {
         $this->appendSubsectionWithoutEval('toAppend', $string);
@@ -316,10 +324,6 @@ class DomBlock extends TreeNode
         }
 
         $contents = strtr($template, $toReplace);
-
-
-        foreach ($this['appendToNode'] as $k => $v) {
-        }
 
         $this->afterRender($contents);
 
