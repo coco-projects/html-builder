@@ -21,6 +21,7 @@ trait AttrRegister
      * @var array|string[] $attrRegistryMap
      */
     protected static array $attrRegistryMap = [
+        "placeholder" => StandardAttr::class,
         "href"        => StandardAttr::class,
         "target"      => StandardAttr::class,
         "src"         => StandardAttr::class,
