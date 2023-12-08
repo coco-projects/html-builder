@@ -4,9 +4,9 @@
 
     namespace Coco\htmlBuilder\dom\tags;
 
-    use Coco\htmlBuilder\dom\SingleTag;
+    use Coco\htmlBuilder\dom\DoubleTag;
 
-class Div extends SingleTag
+class Div extends DoubleTag
 {
     public function __construct()
     {

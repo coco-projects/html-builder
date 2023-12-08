@@ -7,15 +7,17 @@
     use Coco\htmlBuilder\attrs\StyleAttr;
     use Coco\htmlBuilder\dom\DomBlock;
     use Coco\htmlBuilder\dom\RawTag;
+    use Coco\htmlBuilder\dom\tags\Div;
 
     require '../vendor/autoload.php';
 
     //    $dom1 = new DomBlock();
 
-    $dom1 = RawTag::ins();
-    $dom2 = RawTag::ins();
-    $dom1->appendSubsection('node1',$dom2);
-    $dom1->attrRegistry->id = StandardAttr::class;
-    $dom1->attrRegistry->id->setKey('id')->setValue('link1');
+    $dom1 = Div::ins();
+    $dom2 = Div::ins();
+    $dom1->setInnerContents($dom2);
 
-    print_r((string)$dom1->attrRegistry);
+    $dom1->addAttr('id', StandardAttr::class);
+    $dom1->getAttr('id')->setKey('id')->setValue('link1');
+
+    print_r($dom1->render());

@@ -5,7 +5,7 @@
     namespace Coco\htmlBuilder\dom\tags;
 
     use Coco\htmlBuilder\dom\DoubleTag;
-    use MatthiasMullie\Minify\JS;
+    use JShrink\Minifier;
     use Coco\htmlBuilder\dom\others\JSCode;
 
 class Script extends DoubleTag
@@ -55,9 +55,7 @@ class Script extends DoubleTag
     protected function afterRender(string &$sectionContents): void
     {
         if (!$this::$isDebug) {
-            $minifier = new JS();
-            $minifier->add($sectionContents);
-            $sectionContents = $minifier->minify();
+            $sectionContents = Minifier::minify($sectionContents, ['flaggedComments' => true]);
         }
         parent::afterRender($sectionContents);
     }

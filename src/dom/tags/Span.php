@@ -4,9 +4,10 @@
 
     namespace Coco\htmlBuilder\dom\tags;
 
+    use Coco\htmlBuilder\dom\DoubleTag;
     use Coco\htmlBuilder\dom\SingleTag;
 
-class Span extends SingleTag
+class Span extends DoubleTag
 {
     public function __construct()
     {

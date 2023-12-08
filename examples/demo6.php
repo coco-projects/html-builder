@@ -10,7 +10,7 @@
     require '../vendor/autoload.php';
 
     DomBlock::$var['title'] = 'Bootstrap demo';
-    DomBlock::$isDebug      = true;
+    DomBlock::$isDebug      = !true;
 
     $html = Document::ins()->inner(function(Document $this_, array &$inner) {
 
@@ -57,7 +57,15 @@
         let $     = layui.$;
         let layer = layui.layer;
     
-        layer.alert('hello')
+        layer.alert('hello');
+        
+        (function () {
+           
+        })();
+        
+        (function () {
+           
+        })();
     });
 AAA
         );
