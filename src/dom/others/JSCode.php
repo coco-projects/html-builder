@@ -5,6 +5,7 @@
     namespace Coco\htmlBuilder\dom\others;
 
     use Coco\htmlBuilder\dom\DomSection;
+    use JShrink\Minifier;
     use MatthiasMullie\Minify\JS;
 
 class JSCode extends DomSection
@@ -17,9 +18,7 @@ class JSCode extends DomSection
     protected function afterRender(string &$sectionContents): void
     {
         if (!$this::$isDebug) {
-            $minifier = new JS();
-            $minifier->add($sectionContents);
-            $sectionContents = $minifier->minify();
+            $sectionContents = Minifier::minify($sectionContents, ['flaggedComments' => true]);
         }
     }
 }
