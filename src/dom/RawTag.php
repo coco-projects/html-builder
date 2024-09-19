@@ -13,6 +13,8 @@ class RawTag extends DomBlock
     use DomEnhancer;
     use AttrRegister;
 
+    public CustomAttrs $attrsRegistry ;
+
     public function __construct(string $templateString = '')
     {
         parent::__construct($templateString);

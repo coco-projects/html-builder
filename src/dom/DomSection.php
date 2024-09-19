@@ -10,6 +10,7 @@
 class DomSection extends DomBlock
 {
     use DomEnhancer;
+    public CustomAttrs $attrsRegistry ;
 
     public function __construct(mixed $templateString = '')
     {
