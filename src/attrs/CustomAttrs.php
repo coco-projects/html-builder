@@ -179,16 +179,16 @@ class CustomAttrs
      */
     public function evalAttrs(): string|int
     {
-        return ' ' . $this->attrRegistry->evalAttrsByLabels(array_keys($this->attrsLabes));
+        return $this->attrRegistry->evalAttrsByLabels(array_keys($this->attrsLabes));
     }
 
     public function evalClass(): string
     {
-        return ' ' . $this->getAttr('class')->getValue();
+        return $this->getAttr('class')->getValue();
     }
 
     public function evalStyle(): string
     {
-        return ' ' . $this->getAttr('style')->getValue();
+        return $this->getAttr('style')->getValue();
     }
 }

@@ -11,14 +11,18 @@
 class RawTag extends DomBlock
 {
     use DomEnhancer;
+
+    //标签结构化的属性
     use AttrRegister;
 
-    public CustomAttrs $attrsRegistry ;
+    //标签自由化属性
+    public CustomAttrs $attrsRegistry;
 
     public function __construct(string $templateString = '')
     {
         parent::__construct($templateString);
         $this->initRegistry();
+
         $this->attrsRegistry = CustomAttrs::ins();
         $this->makeScriptSection();
         $this->makeStyleSection();
@@ -33,35 +37,41 @@ class RawTag extends DomBlock
     protected function beforeRender(): void
     {
         //生成这两个对象，否则不会生成属性
-
         $this->getAttr('class')->setBeforeGetValueCallback(function (&$str) {
-            if (!$str) {
-                $str = '"{:__CLASS__:}"';
-            } else {
-                $str = preg_replace('/(")$/im', '{:__CLASS__:}$1', $str);
+            $str = trim($str);
+            if ($str) {
+                $str = preg_replace('/(")$/im', ' __CLASS__$1', $str);
             }
         });
 
         $this->getAttr('style')->setBeforeGetValueCallback(function (&$str) {
-            if (!$str) {
-                $str = '"{:__STYLE__:}"';
-            } else {
-                $str = preg_replace('/(")$/im', '{:__STYLE__:}$1', $str);
+            $str = trim($str);
+            if ($str) {
+                $str = preg_replace('/(")$/im', ' __STYLE__$1', $str);
             }
         });
 
         $this->attrRegistry->setBeforeGetValueCallback(function (&$str) {
             $str .= ' {:__ATTRS__:}';
+            $str = trim($str);
         });
 
+        //构造结构化的属性
         $attrString = (string)$this->attrRegistry;
 
-        $node = DomBlock::ins($attrString);
-
-        $node->setSubsections([
+        //构造非结构化的属性
+        $attrString = strtr($attrString, [
             "__CLASS__" => $this->attrsRegistry->evalClass(),
             "__STYLE__" => $this->attrsRegistry->evalStyle(),
-            "__ATTRS__" => $this->attrsRegistry->evalAttrs(),
+        ]);
+
+        //如果class或者style是空，删除这两个属性
+        $attrString = preg_replace('/style\s*="\s*"/im', '', $attrString);
+        $attrString = preg_replace('/class\s*="\s*"/im', '', $attrString);
+
+        $node = DomBlock::ins($attrString);
+        $node->setSubsections([
+            "__ATTRS__" => trim($this->attrsRegistry->evalAttrs()),
         ]);
 
         $this->appendSubsection('ATTRS', $node);

@@ -5,6 +5,7 @@
     namespace Coco\htmlBuilder\dom\tags;
 
     use Coco\htmlBuilder\dom\DoubleTag;
+    use Coco\htmlBuilder\dom\others\CSSCode;
     use MatthiasMullie\Minify\CSS;
 
 class Style extends DoubleTag

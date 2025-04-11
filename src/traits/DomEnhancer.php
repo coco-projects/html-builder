@@ -17,7 +17,6 @@ trait DomEnhancer
 {
     protected static array $valueMap = [];
 
-
     /**
      *head 中的自定义 js 代码对象
      *
